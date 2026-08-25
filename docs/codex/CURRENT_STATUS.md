@@ -40,7 +40,10 @@ Do not assume either `main` contains every desired capability. KU-BO had active 
 ## Current proof state
 
 ```text
-MERGER_CONTROL_PACKAGE: IN_PREPARATION
+MERGER_CONTROL_PACKAGE: READY_IN_DRAFT_PR_1
+CONTROL_PACKAGE_BRANCH: codex/prepare-saudi-merge-control
+CONTROL_PACKAGE_COMMIT: e0fae3fc76f885bfd4845bc07b93ea4a9da08654
+CONTROL_PACKAGE_PR: https://github.com/mohsamir7122/sadi...AI/pull/1
 SOURCE_LOCK: NOT_CREATED
 CAPABILITY_PARITY_AUDIT: NOT_RUN_BY_TARGET
 PRIVATE_CODE_PUBLICATION: BLOCKED_ON_USER_DECISION
