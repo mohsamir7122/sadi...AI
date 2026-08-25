@@ -26,7 +26,7 @@ Continue phase to phase without asking about ordinary engineering choices. Pause
 
 ### Phase 0 — orientation and immutable source lock
 
-1. Verify target remote, visibility, `main`, task branch, working tree, and CI.
+1. Verify target remote, visibility, `main`, control branch/PR, working tree, and CI. Confirm HEAD contains this control package, then create/resume `codex/saudi-engine-merger-v1` from the verified control-package head unless the control package has already been merged into `main`.
 2. Fetch both source repositories without modifying them.
 3. Inspect every open source PR, ancestry, CI, governing instructions, tests, and capability delta.
 4. Classify each open PR as `INCLUDE`, `PORT_SELECTED`, `SUPERSEDED`, `STALE`, `CONFLICTING`, or `OUT_OF_SCOPE`, with evidence.
