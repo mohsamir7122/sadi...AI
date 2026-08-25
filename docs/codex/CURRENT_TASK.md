@@ -26,14 +26,15 @@ Continue phase to phase without asking about ordinary engineering choices. Pause
 
 ### Phase 0 — orientation and immutable source lock
 
-1. Verify target remote, visibility, `main`, control-package presence, working tree, and CI. Create/resume `codex/saudi-engine-merger-v1` from the exact verified target `main` containing this control package.
-2. Fetch both source repositories without modifying them.
-3. Inspect every open source PR, ancestry, CI, governing instructions, tests, and capability delta.
-4. Classify each open PR as `INCLUDE`, `PORT_SELECTED`, `SUPERSEDED`, `STALE`, `CONFLICTING`, or `OUT_OF_SCOPE`, with evidence.
-5. Choose the KU-BO structural snapshot using the latest coherent validated lineage, not simply the newest timestamp.
-6. Choose AI-Mincy donor snapshots per capability. Do not assume one branch contains all donor work.
-7. Write `docs/provenance/SOURCE_LOCK.json` with repository, visibility, exact commit, tree hash, selected branch/PR, selection reason, parent lineage, and inspection timestamp.
-8. Run source baseline tests on untouched checkouts and record exact commands, counts, failures, environment, and duration.
+1. Run `gh auth status`; verify read access to target, KU-BO, and private AI-Mincy. Stop with the exact smallest authentication/access fix if any check fails; do not change visibility as a workaround.
+2. Verify target remote, visibility, `main`, control-package presence, working tree, and CI. Create/resume `codex/saudi-engine-merger-v1` from the exact verified target `main` containing this control package.
+3. Fetch both source repositories without modifying them.
+4. Inspect every open source PR, ancestry, CI, governing instructions, tests, and capability delta.
+5. Classify each open PR as `INCLUDE`, `PORT_SELECTED`, `SUPERSEDED`, `STALE`, `CONFLICTING`, or `OUT_OF_SCOPE`, with evidence.
+6. Choose the KU-BO structural snapshot using the latest coherent validated lineage, not simply the newest timestamp.
+7. Choose AI-Mincy donor snapshots per capability. Do not assume one branch contains all donor work.
+8. Write `docs/provenance/SOURCE_LOCK.json` with repository, visibility, exact commit, tree hash, selected branch/PR, selection reason, parent lineage, and inspection timestamp.
+9. Run source baseline tests on untouched checkouts and record exact commands, counts, failures, environment, and duration.
 
 Exit: source lock, open-PR disposition, and reproducible baseline reports exist. No implementation import occurs before this exit.
 
