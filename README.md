@@ -8,4 +8,10 @@ The intended result is a KU-BO-based runtime that reaches tested behavioral pari
 
 Start with [`CODEX_START_HERE.md`](CODEX_START_HERE.md). The active task and gates are under [`docs/codex/`](docs/codex/).
 
+From the repository root, run `codex` and say:
+
+```text
+اضبط مستودع السعودية AI بالكامل وفق التعليمات، وأكمل حتى Draft PR، ولا تدمج.
+```
+
 Current status: merger control package only. No merged engine, real backtest, forecast accuracy, recommendation, live feed, or execution capability is claimed.
