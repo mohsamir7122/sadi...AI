@@ -11,7 +11,7 @@
   },
   "control_package": {
     "branch": "codex/prepare-saudi-merge-control",
-    "commit": "e0fae3fc76f885bfd4845bc07b93ea4a9da08654",
+    "initial_content_commit": "e0fae3fc76f885bfd4845bc07b93ea4a9da08654",
     "draft_pr": 1,
     "url": "https://github.com/mohsamir7122/sadi...AI/pull/1",
     "status": "ready"
