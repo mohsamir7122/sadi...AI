@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-08-25",
+  "warning": "Inspection-time candidates only. Codex must refresh, verify ancestry/CI/contracts, classify each ref, and produce SOURCE_LOCK.json before import.",
+  "target": {
+    "repository": "mohsamir7122/sadi...AI",
+    "visibility": "public",
+    "main_sha": "96f5c8f247d9d6be0ad9709808c6e822dd68ed28"
+  },
+  "ku_bo": {
+    "repository": "mohsamir7122/ku-bo",
+    "visibility": "public",
+    "main_sha": "59833bf73510b3aa3901f628cbf2c13c0d01cf79",
+    "main_tree_sha": "a4b56728aa4920f5578525f2736f17fbf4616151",
+    "main_parent_shas": [
+      "32e048b234c73809b6f5119ae16937980184296c",
+      "d8086ecf5088f630a43eff2c8241bf16d7ac74e1"
+    ],
+    "branch_protection_observed": false,
+    "open_pr_candidates": [
+      {"pr": 20, "head": "agent/ku-bo-016-codex-live-bootstrap", "sha": "6e9ab870e727494d5eb9e1ec9fa98829d6391d68", "base": "agent/ku-bo-015-source-access-recipes", "classification": "PENDING_AUDIT"},
+      {"pr": 19, "head": "agent/ku-bo-015-source-access-recipes", "sha": "6aa50ac83112d0e3a2e4440e3a6676115b9fbe4a", "base": "main", "classification": "PENDING_AUDIT"},
+      {"pr": 18, "head": "agent/humansoft-event-factor-panel-v1", "sha": "7a74058eaf2dc3dc1738bdefde7b25fb5d2d82ed", "base": "main", "classification": "PENDING_AUDIT"},
+      {"pr": 17, "head": "agent/bootstrap-archive-v0.1", "sha": "b9145b20531d50d32168152eb1a682d631ab3e91", "base": "main", "classification": "PENDING_AUDIT"},
+      {"pr": 3, "head": "agent/final-price-collection-test", "sha": "d0bf6ff981314ca63f629ff68e9d64e867f17366", "base": "stale-main", "classification": "LIKELY_STALE_VERIFY"},
+      {"pr": 2, "head": "agent/staged-live-limited", "sha": "a71af92526147e21079dc7e7d1e8bae3a122b914", "base": "stale-main", "classification": "LIKELY_STALE_VERIFY"}
+    ]
+  },
+  "ai_mincy": {
+    "repository": "mohsamir7122/AI-Mincy",
+    "visibility": "private",
+    "main_sha": "85044b681b7048ac373e47e31f6c2bfa7a885c9c",
+    "main_tree_sha": "e4df4a97e96c7833eaa6891f562762f4af8f58ea",
+    "main_parent_shas": [
+      "d04e9c88dd89afa67e4d2036b999d183954aa2cc"
+    ],
+    "branch_protection_observed": false,
+    "open_pr_candidates": [
+      {"pr": 13, "head": "agent/rebuild-ai-mincy-core-v2-20260805", "sha": "51eb5449da225ef990facc803ce4c3bb7fb5e6b2", "base": "main", "classification": "PENDING_AUDIT"},
+      {"pr": 4, "head": "agent/allow-docs-boursa-reports-ingest", "sha": "3cbadd60992c37c55e3572cc10eedda73ea23e49", "base": "agent/company-daily-research-engine", "classification": "PENDING_AUDIT"},
+      {"pr": 3, "head": "agent/company-daily-research-engine", "sha": "f3978812636dcc1f239201f21d109eb54f1ab0e9", "base": "agent/historical-drive-pipeline-sandbox", "classification": "PENDING_AUDIT"},
+      {"pr": 2, "head": "agent/historical-drive-pipeline-sandbox", "sha": "44c234380ab28fe4ca3e35b4c1a6ef81a8ef760f", "base": "agent/boursa-collector-database-connectors", "classification": "PENDING_AUDIT"}
+    ]
+  }
+}
