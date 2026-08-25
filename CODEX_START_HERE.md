@@ -31,7 +31,7 @@ cd sadi...AI
 codex
 ```
 
-If the target is already cloned, do not clone again. Open its root and run `codex`. Codex must verify/fetch `main`, preserve a dirty worktree, create the task branch, add the two source remotes as read-only, disable their push URLs, and perform the Phase 0 source lock itself.
+If the target is already cloned, do not clone again. Open its root and run `codex`. Codex must run `gh auth status`, verify access to all three repositories, verify/fetch `main`, preserve a dirty worktree, create the task branch, add the two source remotes as read-only, disable their push URLs, and perform the Phase 0 source lock itself.
 
 Inside Codex, use this short instruction:
 
