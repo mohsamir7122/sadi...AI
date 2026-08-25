@@ -28,6 +28,8 @@ Run from the directory where the repositories should live:
 ```bash
 git clone https://github.com/mohsamir7122/sadi...AI.git
 cd sadi...AI
+git fetch origin --prune
+git switch --track origin/codex/prepare-saudi-merge-control
 git remote add kubo https://github.com/mohsamir7122/ku-bo.git
 git remote add ai-mincy https://github.com/mohsamir7122/AI-Mincy.git
 git remote set-url --push kubo DISABLED
@@ -37,7 +39,7 @@ git status --short --branch
 codex
 ```
 
-If the repositories are already cloned, do not clone again. Verify remotes and fetch.
+If the target is already cloned, do not clone again. Fetch and switch to the existing local control branch, or create its tracking branch as shown above. Stop rather than overwrite a dirty worktree. The control package is intentionally in Draft PR #1 and is not on target `main` yet.
 
 Inside Codex, use this short instruction:
 
