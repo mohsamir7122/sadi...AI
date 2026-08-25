@@ -2,6 +2,8 @@
 
 ## First run
 
+Before starting Codex, the repository must be on `codex/prepare-saudi-merge-control` (or on a later branch that contains it). Draft PR #1 is not merged into `main`; cloning and remaining on the default branch will not expose these instructions.
+
 Paste this after opening Codex from the target repository root:
 
 ```text
