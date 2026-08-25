@@ -2,12 +2,18 @@
 
 ## First run
 
-Before starting Codex, the repository must be on `codex/prepare-saudi-merge-control` (or on a later branch that contains it). Draft PR #1 is not merged into `main`; cloning and remaining on the default branch will not expose these instructions.
-
-Paste this after opening Codex from the target repository root:
+After cloning/opening the target repository root and running `codex`, say only:
 
 ```text
-Read AGENTS.md and CODEX_START_HERE.md completely, then read every control file in the required order. Summarize the exact target, both source repositories, open user decisions, active task, current phase, and stop boundaries. Verify live GitHub state because recorded SHAs are inspection-time values. Resolve the target visibility decision with me before publishing any private AI-Mincy implementation. Then execute SAI-MERGE-001 from the first incomplete phase: create or resume the dedicated task branch, treat both sources as read-only, pin exact source snapshots, run honest untouched baselines, preserve provenance, implement in gated capability slices, run all applicable tests and reviews, push only the task branch, open or update a Draft PR, write the handoff, and do not merge.
+اضبط مستودع السعودية AI بالكامل وفق التعليمات، وأكمل حتى Draft PR، ولا تدمج.
+```
+
+Because Codex reads root `AGENTS.md` before work, that short prompt activates the full repository-native plan.
+
+If Codex is opened outside the repository and the target is not cloned, use this single sentence instead:
+
+```text
+افتح أو استنسخ GitHub repo mohsamir7122/sadi...AI، ثم اقرأ AGENTS.md وCODEX_START_HERE.md ونفّذ المهمة كاملة حتى Draft PR، ولا تدمج.
 ```
 
 ## Resume run
@@ -21,5 +27,5 @@ Read the repository control files and latest handoff. Verify HEAD, working tree,
 If you want the shortest possible prompt:
 
 ```text
-Read CODEX_START_HERE.md and execute CURRENT_TASK safely to its gates. Do not merge.
+اضبط مستودع السعودية AI بالكامل وفق التعليمات، ولا تدمج.
 ```
