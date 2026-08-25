@@ -27,6 +27,7 @@ Treat `docs/codex/CURRENT_TASK.md` as the single active task. Historical prompts
 ## Git and repository safety
 
 - Verify all remotes, visibility, default branches, exact source SHAs, open PRs, working-tree state, and CI before implementation.
+- Run `gh auth status` and prove read access to target, KU-BO, and private AI-Mincy before source inspection. If authentication is missing, stop with the smallest exact login/access fix; never work around it by changing repository visibility.
 - Never modify either source repository during this task.
 - Treat source checkouts/remotes as read-only. Disable their push URLs after verification so an accidental source push is impossible.
 - Never work directly on target `main`. Create or resume the task branch declared in `CURRENT_TASK.md`.
