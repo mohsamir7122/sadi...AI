@@ -22,24 +22,28 @@ USER_DECISION: Prepare the plan and Codex instructions in ChatGPT Work now; exec
 IMPLEMENTATION_GUARD: This approval authorizes preparation and later task-branch implementation, not merging into main, force-pushing, deleting, publishing private data, or spending money.
 ```
 
-## Open decisions
-
 ```text
 DECISION_ID: SAI-DEC-003
-STATUS: OPEN
-DATE_RAISED: 2026-08-25
-TARGET: target visibility and AI-Mincy import rights
+STATUS: APPROVED
+DATE: 2026-08-25
+TARGET: public target and selected AI-Mincy implementation
 CATEGORY: VISIBILITY; PUBLICATION
-CURRENT_STATE: The target is public, while AI-Mincy is private and has no declared license in repository metadata.
-WHY_REQUIRED: Copying private-source implementation into a public repository is an irreversible publication step even when both repositories are user-owned.
-OPTIONS:
-1. Make the target private before importing AI-Mincy code. (Recommended during development.)
-2. Keep the target public and explicitly authorize publication of selected AI-Mincy implementation.
-3. Keep the target public and clean-room reimplement behavior from capability specifications without copying private implementation.
-CODEX_RECOMMENDATION: Option 1 for the merger and validation period; decide later whether to publish a reviewed release.
-USER_DECISION:
-DECIDED_AT:
+USER_DECISION: Keep the Saudi target and merger output public. Authorize publication of selected AI-Mincy implementation into the target as part of the governed capability migration.
+SELECTED_OPTION: 2
+IMPLEMENTATION_GUARD: AI-Mincy itself remains private. This does not authorize bulk publication, raw/private/licensed data, credentials, sessions, personal financial information, or paths that fail provenance, ownership/license, secret/privacy, and publication review.
 ```
+
+```text
+DECISION_ID: SAI-DEC-005
+STATUS: APPROVED
+DATE: 2026-08-25
+TARGET: merger control package
+CATEGORY: WORKFLOW; DEFAULT_BRANCH
+USER_DECISION: Put the control package on target main so Codex can start from the repository name and a short instruction at home.
+IMPLEMENTATION_GUARD: Only the planning/control package may be merged now. The application merger must remain on its dedicated task branch and end in a Draft PR without merge.
+```
+
+## Open decisions
 
 ```text
 DECISION_ID: SAI-DEC-004
