@@ -6,7 +6,7 @@
   "target": {
     "repository": "mohsamir7122/sadi...AI",
     "observed_visibility": "public",
-    "observed_main_sha": "96f5c8f247d9d6be0ad9709808c6e822dd68ed28",
+    "pre_control_main_sha": "96f5c8f247d9d6be0ad9709808c6e822dd68ed28",
     "working_branch": "codex/saudi-engine-merger-v1"
   },
   "control_package": {
@@ -14,7 +14,7 @@
     "initial_content_commit": "e0fae3fc76f885bfd4845bc07b93ea4a9da08654",
     "draft_pr": 1,
     "url": "https://github.com/mohsamir7122/sadi...AI/pull/1",
-    "status": "ready"
+    "status": "ready_for_codex_cli_on_default_branch"
   },
   "sources": {
     "ku_bo": {
@@ -31,7 +31,7 @@
   "gate_status": {
     "orientation_and_source_freeze": "pending",
     "untouched_source_baselines": "pending",
-    "provenance_and_rights": "blocked_on_SAI-DEC-003",
+    "provenance_and_rights": "pending_path_level_verification_under_SAI-DEC-003",
     "ku_bo_foundation": "pending",
     "market_abstraction": "pending",
     "saudi_foundation": "pending",
@@ -39,9 +39,7 @@
     "full_validation": "pending",
     "draft_pr": "pending"
   },
-  "blockers": [
-    "SAI-DEC-003: private AI-Mincy implementation cannot be published to the public target without a visibility/publication decision"
-  ],
-  "next_action": "Refresh repository state, resolve SAI-DEC-003, create the task branch, then execute Phase 0 and write an immutable source lock.",
-  "updated_at_utc": "2026-08-25T13:31:54Z"
+  "blockers": [],
+  "next_action": "Refresh repository state, create the task branch from the verified default-branch control package, then execute Phase 0 and write an immutable source lock.",
+  "updated_at_utc": "2026-08-25T13:51:55Z"
 }
