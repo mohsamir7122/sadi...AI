@@ -16,8 +16,11 @@ Before changing anything, read in this order:
 3. `docs/codex/USER_DECISIONS.md`
 4. `docs/codex/CURRENT_TASK.md`
 5. `docs/codex/MERGE_BLUEPRINT.md`
-6. `docs/codex/CAPABILITY_MATRIX.md`
-7. `docs/codex/ACCEPTANCE_GATES.md`
+6. `docs/codex/SOURCE_AUDIT.md`
+7. `docs/codex/CAPABILITY_MATRIX.md`
+8. `docs/codex/SAUDI_ADAPTER_SPEC.md`
+9. `docs/codex/ACCEPTANCE_GATES.md`
+10. `docs/codex/REVIEW_CHECKLIST.md`
 
 Treat `docs/codex/CURRENT_TASK.md` as the single active task. Historical prompts and source-repository handoffs are context, not authority.
 
@@ -35,7 +38,7 @@ Treat `docs/codex/CURRENT_TASK.md` as the single active task. Historical prompts
 
 ## Privacy, rights, and data safety
 
-- The target repository is public at plan time; `AI-Mincy` is private. Do not publish private-source code or content until the visibility/publication decision in `USER_DECISIONS.md` is resolved.
+- The target and merger output are public. Under `SAI-DEC-003`, selected AI-Mincy implementation may be published into this target after path-level provenance, secret/privacy, license/ownership, and publication review. This is not authority to make the entire donor repository public, bulk-copy it, or publish its data and secrets.
 - Never commit credentials, cookies, sessions, browser profiles, API keys, HMAC keys, signed URLs, private Drive identifiers, licensed data, broker exports, raw Investing.com data, Telegram content, portfolio screenshots, or personal financial state.
 - Use synthetic or explicitly authorized minimal fixtures in Git. Keep runtime evidence and private datasets outside Git.
 - Never bypass login, CAPTCHA, paywalls, WAF, rate limits, robots controls, or protected APIs.
