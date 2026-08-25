@@ -4,7 +4,7 @@ This is the repository-native entrypoint for the multi-repository merger.
 
 ## One-sentence mission
 
-Build a Saudi Exchange research engine in `mohsamir7122/sadi...AI` by using the latest verified KU-BO lineage as the engineering baseline and porting every non-duplicate AI-Mincy capability with provenance and parity tests, while preserving fail-closed evidence rules and never merging or publishing private-source code without recorded authority.
+Build a Saudi Exchange research engine in `mohsamir7122/sadi...AI` by using the latest verified KU-BO lineage as the engineering baseline and porting every non-duplicate AI-Mincy capability with provenance and parity tests, while preserving fail-closed evidence and publication rules.
 
 ## Required read order
 
@@ -28,28 +28,20 @@ Run from the directory where the repositories should live:
 ```bash
 git clone https://github.com/mohsamir7122/sadi...AI.git
 cd sadi...AI
-git fetch origin --prune
-git switch --track origin/codex/prepare-saudi-merge-control
-git remote add kubo https://github.com/mohsamir7122/ku-bo.git
-git remote add ai-mincy https://github.com/mohsamir7122/AI-Mincy.git
-git remote set-url --push kubo DISABLED
-git remote set-url --push ai-mincy DISABLED
-git fetch --all --prune
-git status --short --branch
 codex
 ```
 
-If the target is already cloned, do not clone again. Fetch and switch to the existing local control branch, or create its tracking branch as shown above. Stop rather than overwrite a dirty worktree. The control package is intentionally in Draft PR #1 and is not on target `main` yet.
+If the target is already cloned, do not clone again. Open its root and run `codex`. Codex must verify/fetch `main`, preserve a dirty worktree, create the task branch, add the two source remotes as read-only, disable their push URLs, and perform the Phase 0 source lock itself.
 
 Inside Codex, use this short instruction:
 
 ```text
-Read CODEX_START_HERE.md and all required control files. Execute docs/codex/CURRENT_TASK.md from its verified checkpoint. Plan first, preserve source provenance, run every applicable gate, push only the task branch, open or update a Draft PR, and do not merge.
+اضبط مستودع السعودية AI بالكامل وفق التعليمات، وأكمل حتى Draft PR، ولا تدمج.
 ```
 
 ## Important start condition
 
-The target was public and AI-Mincy was private when this control package was created. Planning, inventory, source-lock generation, and clean-room interface design may proceed. Copying private AI-Mincy implementation into the public target must wait for `SAI-DEC-003`.
+The target and merger output are public. `SAI-DEC-003` authorizes publication of selected AI-Mincy implementation into this target only after path-level provenance, secret/privacy, ownership/license, and publication gates pass. AI-Mincy itself remains private; bulk publication and private/raw data remain forbidden.
 
 ## Completion behavior
 
