@@ -9,6 +9,13 @@
     "observed_main_sha": "96f5c8f247d9d6be0ad9709808c6e822dd68ed28",
     "working_branch": "codex/saudi-engine-merger-v1"
   },
+  "control_package": {
+    "branch": "codex/prepare-saudi-merge-control",
+    "commit": "e0fae3fc76f885bfd4845bc07b93ea4a9da08654",
+    "draft_pr": 1,
+    "url": "https://github.com/mohsamir7122/sadi...AI/pull/1",
+    "status": "ready"
+  },
   "sources": {
     "ku_bo": {
       "repository": "mohsamir7122/ku-bo",
@@ -36,5 +43,5 @@
     "SAI-DEC-003: private AI-Mincy implementation cannot be published to the public target without a visibility/publication decision"
   ],
   "next_action": "Refresh repository state, resolve SAI-DEC-003, create the task branch, then execute Phase 0 and write an immutable source lock.",
-  "updated_at_utc": "2026-08-25T13:16:58Z"
+  "updated_at_utc": "2026-08-25T13:31:54Z"
 }
