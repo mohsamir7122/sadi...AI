@@ -1,0 +1,18 @@
+{
+  "market_id": "SAUDI_EXCHANGE",
+  "display_name": "Saudi Exchange",
+  "currency": "SAR",
+  "timezone": "Asia/Riyadh",
+  "default_segment": "MAIN",
+  "primary_benchmark": "TASI",
+  "segments": {
+    "MAIN": {"enabled": true, "instrument_types": ["ORDINARY_EQUITY", "REIT"]},
+    "NOMU": {"enabled": false, "instrument_types": ["ORDINARY_EQUITY"]}
+  },
+  "source_policy": "DEFINED_ONLY",
+  "official_references": {
+    "trading_cycle": "https://www.saudiexchange.sa/wps/portal/saudiexchange/rules-guidance/capital-market-overview/trading-cycle-and-times",
+    "ereference": "https://www.saudiexchange.sa/wps/portal/saudiexchange/trading/market-services/market-information-services/ereference-data?locale=en",
+    "corporate_actions": "https://www.saudiexchange.sa/wps/portal/saudiexchange/newsandreports/issuer-financial-calendars/corporate-actions"
+  }
+}

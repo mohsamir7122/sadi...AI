@@ -1,10 +1,10 @@
-# CURRENT TASK — SAI-MERGE-001
+# CURRENT TASK — SAI-2026-08-26-PR2-REPAIR
 
 ```text
-TASK_ID: SAI-MERGE-001
-STATUS: READY_FOR_CODEX_CLI
+TASK_ID: SAI-2026-08-26-PR2-REPAIR
+STATUS: IN_PROGRESS
 REPOSITORY: mohsamir7122/sadi...AI
-EXPECTED_TASK_BRANCH: codex/saudi-engine-merger-v1
+EXPECTED_TASK_BRANCH: codex/saudi-engine-merger-v1-repair
 EXPECTED_PR_MODE: DRAFT
 MERGE_ALLOWED: NO
 FORCE_PUSH_ALLOWED: NO
@@ -12,13 +12,19 @@ PERMANENT_DELETE_ALLOWED: NO
 SOURCE_REPOSITORY_WRITE_ALLOWED: NO
 REAL_MARKET_DATA_COMMIT_ALLOWED: NO
 PRIVATE_SOURCE_PUBLICATION_ALLOWED: SELECTED_IMPLEMENTATION_ONLY_PER_SAI-DEC-003
+MODEL_TRAINING_ALLOWED: NO
 REAL_BACKTEST_ALLOWED: NO
 LIVE_TRADING_ALLOWED: NO
+BLOCKED_ON: REPRODUCE_TWO_FAILURES; ROOT_MARKER_POLICY_FIX; EXACT_HEAD_CI
+MERGE_DECISION_REFERENCE: SAI-2026-08-26-MERGE-COND-001
 ```
 
 ## Mission
 
-Create a tested Saudi-first successor to KU-BO in the target repository. Preserve KU-BO as the runtime/package/evidence foundation, port or reimplement every useful non-duplicate AI-Mincy capability, isolate Kuwait-specific behavior, and prove capability parity with contracts and tests. Do not merge the Draft PR.
+Repair the Saudi PR#2 migration boundary without weakening assertions: keep Saudi as the active default, isolate Kuwait policy paths, and prove the corrected behavior with contracts and tests. Publish and merge only after the master execution contract and all applicable gates pass.
+
+Recorded authority is in `docs/codex/USER_DECISIONS.md`; the final publication
+record follows `docs/codex/HANDOFF_TEMPLATE.md`.
 
 ## Execution sequence
 
@@ -122,11 +128,10 @@ Exit: all applicable gates pass, or final status is `PARTIAL/BLOCKED` with no ov
 
 ### Phase 7 — publication boundary
 
-1. Push only `codex/saudi-engine-merger-v1` without force.
-2. Open or update a Draft PR against target `main`.
-3. Include source lock, capability results, exact tests, claims/non-claims, open decisions, and known limitations.
-4. Write the final handoff under `docs/codex/handoffs/SAI-MERGE-001-result.md`.
-5. Do not merge.
+1. Push `codex/saudi-engine-merger-v1` without force.
+2. Include source lock, capability results, exact tests, claims/non-claims, open decisions, and known limitations in the publication record.
+3. Write the final handoff under `docs/codex/handoffs/SAI-MERGE-001-result.md`.
+4. Merge into `main` only when applicable local and remote checks pass; never force push.
 
 ## Done when
 

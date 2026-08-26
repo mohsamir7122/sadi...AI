@@ -43,6 +43,26 @@ USER_DECISION: Put the control package on target main so Codex can start from th
 IMPLEMENTATION_GUARD: Only the planning/control package may be merged now. The application merger must remain on its dedicated task branch and end in a Draft PR without merge.
 ```
 
+```text
+DECISION_ID: SAI-DEC-006
+STATUS: APPROVED
+DATE: 2026-08-25
+TARGET: mohsamir7122/sadi...AI
+CATEGORY: WORKFLOW; PUBLICATION; DEFAULT_BRANCH
+USER_DECISION: Test and finish the new repository, perform the necessary merger, push the completed work, and merge it into the repository default branch.
+IMPLEMENTATION_GUARD: Merge only after applicable tests and publication checks pass. No force push, credential publication, private/licensed data publication, or live order execution is authorized.
+```
+
+```text
+DECISION_ID: SAI-DEC-007
+STATUS: APPROVED
+DATE: 2026-08-25
+TARGET: recurring Saudi research workflows
+CATEGORY: AUTOMATION; RESEARCH
+USER_DECISION: Run a daily ten-year event training/validation/final-holdout laboratory at 22:00 with at least 50 primary and 300 probe events, and run a multi-horizon Saudi stock research scan thirty minutes after market open.
+IMPLEMENTATION_GUARD: Use Point-in-Time source-backed data and fail closed when data, rights, identity, or freshness are incomplete. Outputs are research candidates, not personalized recommendations or execution instructions.
+```
+
 ## Open decisions
 
 ```text
@@ -67,3 +87,26 @@ DECIDED_AT:
 - Silence is not approval.
 - Codex may continue through analysis and reversible scaffolding while a decision is open, but must stop before crossing that decision boundary.
 - No merge, permanent deletion, public release, credentials use, paid data purchase, or gate weakening without a specific approved record.
+
+```text
+DECISION_ID: SAI-2026-08-26-MERGE-COND-001
+STATUS: APPROVED
+DATE_RAISED: 2026-08-26
+TARGET: Saudi PR #2 and subsequent engineering merges after the Kuwait gates complete
+CATEGORY: MERGE
+CURRENT_STATE: The owner has authorized Codex to merge engineering changes without asking again, but only after every merge gate in the master Kuwait/Saudi execution contract passes on the exact head SHA.
+WHY_A_DECISION_IS_REQUIRED: Repository-local controls require the merge authority and its limits to be recorded before the first merge.
+OPTIONS:
+1. Permit conditional merge after all section-8 gates pass on the exact head SHA.
+2. Require a new owner confirmation for every otherwise-gated engineering merge.
+3. Permit unconditional merge.
+CODEX_RECOMMENDATION: Option 1.
+CONSEQUENCE_OF_APPROVAL: Codex may merge only the validated exact head after provenance, diff, tests, dry-run, privacy/licensing, rollback, changelog, decision, and status gates pass.
+CONSEQUENCE_OF_REJECTION: Validated work remains in a branch/Draft PR until a later decision.
+SAFER_REVERSIBLE_ALTERNATIVE: Keep PR #2 Draft and unmerged while fixing the root-marker/policy migration failure.
+USER_DECISION: APPROVED by the active master execution contract.
+DECIDED_AT: 2026-08-26
+DECIDED_BY: Mohamed Samir Rashed Shaheen
+IMPLEMENTATION_GUARD: This authority is conditional, not absolute. It excludes force-push, protected-history rewrite, deletion, secret disclosure, paid access, private/licensed publication, trading or money movement, credential-scope expansion, and gate weakening. PR #2 is not merge-ready while CI is failing.
+IMPLEMENTED_IN_BRANCH_OR_PR: codex/saudi-engine-merger-v1-repair; future validated PR exact head only
+```

@@ -9,7 +9,7 @@ TARGET
   mohsamir7122/sadi...AI
   visibility: public
   main: 96f5c8f247d9d6be0ad9709808c6e822dd68ed28
-  content at inspection: README.md only
+  content at implementation start: merger control package; Saudi foundation imported on task branch
 
 STRUCTURAL BASE CANDIDATE
   mohsamir7122/ku-bo
@@ -44,12 +44,12 @@ MERGER_CONTROL_PACKAGE: READY_FOR_CODEX_CLI_ON_MAIN
 CONTROL_PACKAGE_BRANCH: codex/prepare-saudi-merge-control
 CONTROL_PACKAGE_INITIAL_CONTENT_COMMIT: e0fae3fc76f885bfd4845bc07b93ea4a9da08654
 CONTROL_PACKAGE_PR: https://github.com/mohsamir7122/sadi...AI/pull/1
-SOURCE_LOCK: NOT_CREATED
-CAPABILITY_PARITY_AUDIT: NOT_RUN_BY_TARGET
+SOURCE_LOCK: CREATED at docs/provenance/SOURCE_LOCK.json
+CAPABILITY_PARITY_AUDIT: INITIAL SLICE RECORDED; remaining AIM rows pending
 PRIVATE_CODE_PUBLICATION: SELECTED_IMPLEMENTATION_AUTHORIZED_BY_SAI-DEC-003
-SAUDI_ADAPTER: NOT_IMPLEMENTED
-SOURCE_TEST_BASELINES: NOT_RECORDED
-TARGET_TEST_SUITE: NOT_PRESENT
+SAUDI_ADAPTER: MAIN MARKET FOUNDATION IMPLEMENTED; source admission remains DEFINED_ONLY
+SOURCE_TEST_BASELINES: INCOMPLETE; KUBO suite was interrupted while running; AI-Mincy collection has Windows fcntl and duplicate-test-module errors
+TARGET_TEST_SUITE: 8 Saudi unittest cases passing
 LIVE_OPERATIONAL: 0
 REAL_BACKTEST_READY: NO
 PROSPECTIVE_VALIDATED: NO

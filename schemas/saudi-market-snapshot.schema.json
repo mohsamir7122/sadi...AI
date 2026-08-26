@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sadi-ai.local/schemas/saudi-market-snapshot.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["market", "currency", "timezone", "segment", "as_of", "known_at", "session", "benchmark", "universe_size", "source_states", "status", "blocked_reasons"],
+  "properties": {
+    "market": {"const": "SAUDI_EXCHANGE"},
+    "currency": {"const": "SAR"},
+    "timezone": {"const": "Asia/Riyadh"},
+    "segment": {"enum": ["MAIN", "NOMU"]},
+    "as_of": {"type": "string", "format": "date"},
+    "known_at": {"type": "string", "format": "date-time"},
+    "session": {"type": "object", "additionalProperties": false, "required": ["is_trading_day", "closed_reason"], "properties": {"is_trading_day": {"type": "boolean"}, "closed_reason": {"type": ["string", "null"]}}},
+    "benchmark": {"type": "object", "additionalProperties": false, "required": ["code", "scope"], "properties": {"code": {"type": "string"}, "scope": {"type": "string"}}},
+    "universe_size": {"type": "integer", "minimum": 0},
+    "source_states": {"type": "object", "additionalProperties": {"enum": ["DEFINED_ONLY", "ADMITTED", "RETIRED"]}},
+    "status": {"enum": ["ABSTAIN", "READY_FOR_EVIDENCE"]},
+    "blocked_reasons": {"type": "array", "items": {"type": "string"}}
+  }
+}

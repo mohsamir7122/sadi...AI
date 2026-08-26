@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "workflow_id": "SAUDI_OPEN_PLUS_30_RESEARCH_SCAN",
+  "market": "SAUDI_EXCHANGE",
+  "segment": "MAIN",
+  "timezone": "Asia/Riyadh",
+  "trading_days": ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY"],
+  "scheduled_local_time": "10:30",
+  "continuous_market_open": "10:00",
+  "maximum_market_age_minutes": 15,
+  "horizons": ["INTRADAY", "NEXT_SESSION", "WEEK", "MONTH", "YEAR"],
+  "required_gates": [
+    "OFFICIAL_IDENTITY",
+    "AUTHORIZED_MARKET_SOURCE",
+    "EXPLICIT_LATENCY",
+    "POINT_IN_TIME_FEATURES",
+    "LIQUIDITY_FLOOR",
+    "ALL_HORIZON_WEIGHTS_PRESENT"
+  ],
+  "failure_policy": "ABSTAIN",
+  "output_kind": "RESEARCH_CANDIDATES",
+  "claim_boundary": "No personalized recommendation, probability, order, or execution"
+}

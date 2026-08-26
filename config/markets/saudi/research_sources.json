@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "market": "SAUDI_EXCHANGE",
+  "default_admission": "DEFINED_ONLY",
+  "sources": [
+    {
+      "source_id": "saudi_exchange_historical_reports",
+      "role": "OFFICIAL_VERIFICATION",
+      "url": "https://www.saudiexchange.sa/wps/portal/saudiexchange/newsandreports/reports-publications/historical-reports",
+      "capabilities": ["HISTORICAL_UNADJUSTED_PRICES", "HISTORICAL_VOLUME"],
+      "rights_status": "REVIEW_REQUIRED",
+      "notes": "Use only public or separately authorized exports; reconcile corporate actions before outcomes."
+    },
+    {
+      "source_id": "saudi_exchange_announcements",
+      "role": "ISSUER_DISCLOSURE",
+      "url": "https://www.saudiexchange.sa/wps/portal/saudiexchange/newsandreports/issuer-news/issuer-announcements",
+      "capabilities": ["ISSUER_EVENTS", "LEGAL_AND_GOVERNANCE_EVENTS"],
+      "rights_status": "REVIEW_REQUIRED",
+      "notes": "Preserve publication and correction timestamps for Point-in-Time research."
+    },
+    {
+      "source_id": "saudi_exchange_market_data",
+      "role": "OFFICIAL_VERIFICATION",
+      "url": "https://www.saudiexchange.sa/wps/portal/saudiexchange/trading/market-services/market-information-services/market-data",
+      "capabilities": ["MARKET_DATA_SERVICE_DISCOVERY"],
+      "rights_status": "CONTRACT_REQUIRED_FOR_LIVE_OR_LICENSED_FIELDS",
+      "notes": "A listed service is not an entitlement; configure an actual contract before post-open use."
+    },
+    {
+      "source_id": "saudi_cma_rules_and_actions",
+      "role": "REGULATORY_EVIDENCE",
+      "url": "https://cma.gov.sa/en/RulesRegulations/Regulations/Pages/default.aspx",
+      "capabilities": ["REGULATORY_RULES", "LEGAL_REGULATORY_CONTEXT"],
+      "rights_status": "REVIEW_REQUIRED",
+      "notes": "Regulatory facts remain separate from price outcomes and prediction features."
+    },
+    {
+      "source_id": "authorized_saudi_market_feed_unconfigured",
+      "role": "LICENSED_MARKET_DATA",
+      "url": null,
+      "capabilities": ["INTRADAY_PRICE", "VOLUME", "TURNOVER"],
+      "rights_status": "NOT_CONFIGURED",
+      "notes": "Required for a fresh 10:30 scan; the workflow abstains until a feed and entitlement are configured."
+    }
+  ]
+}

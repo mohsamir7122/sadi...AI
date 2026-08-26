@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "workflow_id": "SAUDI_NIGHTLY_TEN_YEAR_EVENT_LAB",
+  "market": "SAUDI_EXCHANGE",
+  "segment": "MAIN",
+  "timezone": "Asia/Riyadh",
+  "scheduled_local_time": "22:00",
+  "lookback_years": 10,
+  "minimum_daily_cohorts": {
+    "PRIMARY": 50,
+    "PROBE": 300
+  },
+  "temporal_split": {
+    "training": 0.6,
+    "validation": 0.2,
+    "final_holdout": 0.2,
+    "shuffle": false
+  },
+  "horizons": ["INTRADAY", "NEXT_SESSION", "WEEK", "MONTH", "YEAR"],
+  "event_types": [
+    "EARNINGS",
+    "GUIDANCE",
+    "CORPORATE_ACTION",
+    "LEGAL_REGULATORY",
+    "SUSPENSION_STATUS",
+    "GOVERNANCE",
+    "MERGER_ACQUISITION",
+    "MACRO_SECTOR",
+    "PRICE_VOLUME_DISLOCATION"
+  ],
+  "required_gates": [
+    "POINT_IN_TIME_FEATURES",
+    "OFFICIAL_IDENTITY",
+    "SOURCE_AUTHORITY_AND_RIGHTS",
+    "COMPLETE_DENOMINATOR",
+    "CORPORATE_ACTION_RECONCILIATION",
+    "CHRONOLOGICAL_SPLIT",
+    "SEALED_FINAL_HOLDOUT"
+  ],
+  "failure_policy": "STOP_WITHOUT_MODEL_UPDATE",
+  "claim_boundary": "Historical research and idea generation only; no accuracy, recommendation, or execution claim"
+}
