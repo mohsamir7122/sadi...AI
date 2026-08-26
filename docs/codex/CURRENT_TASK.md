@@ -2,9 +2,9 @@
 
 ```text
 TASK_ID: SAI-2026-08-26-PR2-REPAIR
-STATUS: IN_PROGRESS
+STATUS: COMPLETED
 REPOSITORY: mohsamir7122/sadi...AI
-EXPECTED_TASK_BRANCH: codex/saudi-engine-merger-v1-repair
+EXPECTED_TASK_BRANCH: main
 EXPECTED_PR_MODE: DRAFT
 MERGE_ALLOWED: NO
 FORCE_PUSH_ALLOWED: NO
@@ -15,13 +15,13 @@ PRIVATE_SOURCE_PUBLICATION_ALLOWED: SELECTED_IMPLEMENTATION_ONLY_PER_SAI-DEC-003
 MODEL_TRAINING_ALLOWED: NO
 REAL_BACKTEST_ALLOWED: NO
 LIVE_TRADING_ALLOWED: NO
-BLOCKED_ON: REPRODUCE_TWO_FAILURES; ROOT_MARKER_POLICY_FIX; EXACT_HEAD_CI
+BLOCKED_ON: NONE; TASK_COMPLETED_IN_MAIN
 MERGE_DECISION_REFERENCE: SAI-2026-08-26-MERGE-COND-001
 ```
 
 ## Mission
 
-Repair the Saudi PR#2 migration boundary without weakening assertions: keep Saudi as the active default, isolate Kuwait policy paths, and prove the corrected behavior with contracts and tests. Publish and merge only after the master execution contract and all applicable gates pass.
+Repair the Saudi PR#2 migration boundary without weakening assertions: keep Saudi as the active default, isolate Kuwait policy paths, and prove the corrected behavior with contracts and tests. This task passed its applicable gates and was merged as PR #2.
 
 Recorded authority is in `docs/codex/USER_DECISIONS.md`; the final publication
 record follows `docs/codex/HANDOFF_TEMPLATE.md`.

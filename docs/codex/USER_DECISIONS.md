@@ -108,5 +108,5 @@ USER_DECISION: APPROVED by the active master execution contract.
 DECIDED_AT: 2026-08-26
 DECIDED_BY: Mohamed Samir Rashed Shaheen
 IMPLEMENTATION_GUARD: This authority is conditional, not absolute. It excludes force-push, protected-history rewrite, deletion, secret disclosure, paid access, private/licensed publication, trading or money movement, credential-scope expansion, and gate weakening. PR #2 is not merge-ready while CI is failing.
-IMPLEMENTED_IN_BRANCH_OR_PR: codex/saudi-engine-merger-v1-repair; future validated PR exact head only
+IMPLEMENTED_IN_BRANCH_OR_PR: PR #2 exact head f1040c55bfe77bb9324cb6ff9cf88c1403dfc309; merged to main as 24735a34084dc42f285927560723b36b80818c59
 ```

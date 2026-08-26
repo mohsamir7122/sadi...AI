@@ -1,48 +1,32 @@
 {
   "schema_version": 1,
-  "status": "in_progress",
-  "phase": "P3_SAUDI_FOUNDATION_AND_INITIAL_CAPABILITY_SLICES",
-  "current_task": "SAI-MERGE-001",
+  "status": "completed",
+  "phase": "P7_SAUDI_PR2_REPAIR_MERGED",
+  "current_task": "SAI-2026-08-26-PR2-REPAIR",
   "target": {
     "repository": "mohsamir7122/sadi...AI",
     "observed_visibility": "public",
-    "pre_control_main_sha": "96f5c8f247d9d6be0ad9709808c6e822dd68ed28",
-    "working_branch": "codex/saudi-engine-merger-v1"
+    "base_branch": "main",
+    "main_sha": "24735a34084dc42f285927560723b36b80818c59"
   },
-  "control_package": {
-    "branch": "codex/prepare-saudi-merge-control",
-    "initial_content_commit": "e0fae3fc76f885bfd4845bc07b93ea4a9da08654",
-    "draft_pr": 1,
-    "url": "https://github.com/mohsamir7122/sadi...AI/pull/1",
-    "status": "ready_for_codex_cli_on_default_branch"
-  },
-  "sources": {
-    "ku_bo": {
-      "repository": "mohsamir7122/ku-bo",
-      "observed_main_sha": "59833bf73510b3aa3901f628cbf2c13c0d01cf79",
-      "selected_commit": "59833bf73510b3aa3901f628cbf2c13c0d01cf79"
-    },
-    "ai_mincy": {
-      "repository": "mohsamir7122/AI-Mincy",
-      "observed_main_sha": "85044b681b7048ac373e47e31f6c2bfa7a885c9c",
-      "selected_commits": ["85044b681b7048ac373e47e31f6c2bfa7a885c9c", "51eb5449da225ef990facc803ce4c3bb7fb5e6b2"]
-    }
+  "candidate": {
+    "pr": 2,
+    "candidate_sha": "f1040c55bfe77bb9324cb6ff9cf88c1403dfc309",
+    "merge_commit": "24735a34084dc42f285927560723b36b80818c59",
+    "exact_head_ci_runs": [32989063479, 32990157162]
   },
   "gate_status": {
-    "orientation_and_source_freeze": "passed_with_direct_git_read_access; gh_cli_login_missing",
-    "untouched_source_baselines": "incomplete; KUBO long suite interrupted; AI-Mincy collection errors on Windows fcntl and duplicate test module names",
-    "provenance_and_rights": "pending_path_level_verification_under_SAI-DEC-003",
-    "ku_bo_foundation": "pending",
-    "market_abstraction": "partial",
-    "saudi_foundation": "partial",
-    "ai_mincy_parity": "partial_initial_slices",
-    "full_validation": "pending",
-    "draft_pr": "pending"
+    "root_marker_policy_repair": "passed",
+    "local_full_suite": "passed_2103",
+    "exact_head_ci": "passed_python_3.11_to_3.14",
+    "control_and_secret_guards": "passed",
+    "merge": "completed_under_conditional_authority"
   },
-  "blockers": [
-    "gh CLI is not authenticated; push/Draft PR publication cannot be performed until user signs in.",
-    "Full source baseline is not yet complete: AI-Mincy has Windows-only fcntl imports and duplicate pytest module names; KUBO full suite was interrupted after slow progress."
-  ],
-  "next_action": "Continue Saudi adapter and capability slices, install/enable test dependencies, then run full validation before any Draft PR.",
-  "updated_at_utc": "2026-08-25T16:08:19Z"
+  "claim_boundaries": {
+    "live_operational": false,
+    "real_backtest_ready": false,
+    "prospective_validated": false,
+    "model_training_completed": false
+  },
+  "updated_at_utc": "2026-08-26T17:00:50Z"
 }
