@@ -7,7 +7,8 @@
     "repository": "mohsamir7122/sadi...AI",
     "observed_visibility": "public",
     "base_branch": "main",
-    "main_sha": "24735a34084dc42f285927560723b36b80818c59"
+    "main_merge_commit": "24735a34084dc42f285927560723b36b80818c59",
+    "post_merge_status_commit": "78fd23c"
   },
   "candidate": {
     "pr": 2,
