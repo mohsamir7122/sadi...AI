@@ -1,24 +1,27 @@
-# CURRENT TASK — SAI-MERGE-001
+# CURRENT TASK — SAI-2026-08-26-PR2-REPAIR
 
 ```text
-TASK_ID: SAI-MERGE-001
+TASK_ID: SAI-2026-08-26-PR2-REPAIR
 STATUS: IN_PROGRESS
 REPOSITORY: mohsamir7122/sadi...AI
-EXPECTED_TASK_BRANCH: codex/saudi-engine-merger-v1
-EXPECTED_PR_MODE: DIRECT_OR_REVIEW_PR_AFTER_GATES
-MERGE_ALLOWED: YES_AFTER_GATES_PER_SAI-DEC-006
+EXPECTED_TASK_BRANCH: codex/saudi-engine-merger-v1-repair
+EXPECTED_PR_MODE: DRAFT
+MERGE_ALLOWED: NO
 FORCE_PUSH_ALLOWED: NO
 PERMANENT_DELETE_ALLOWED: NO
 SOURCE_REPOSITORY_WRITE_ALLOWED: NO
 REAL_MARKET_DATA_COMMIT_ALLOWED: NO
 PRIVATE_SOURCE_PUBLICATION_ALLOWED: SELECTED_IMPLEMENTATION_ONLY_PER_SAI-DEC-003
-REAL_BACKTEST_ALLOWED: YES_WITH_AUTHORIZED_POINT_IN_TIME_DATA
+MODEL_TRAINING_ALLOWED: NO
+REAL_BACKTEST_ALLOWED: NO
 LIVE_TRADING_ALLOWED: NO
+BLOCKED_ON: REPRODUCE_TWO_FAILURES; ROOT_MARKER_POLICY_FIX; EXACT_HEAD_CI
+MERGE_DECISION_REFERENCE: SAI-2026-08-26-MERGE-COND-001
 ```
 
 ## Mission
 
-Create a tested Saudi-first successor to KU-BO in the target repository. Preserve KU-BO as the runtime/package/evidence foundation, port or reimplement useful non-duplicate AI-Mincy capabilities, isolate Kuwait-specific behavior, and prove migrated behavior with contracts and tests. Publish and merge after the applicable gates pass under SAI-DEC-006.
+Repair the Saudi PR#2 migration boundary without weakening assertions: keep Saudi as the active default, isolate Kuwait policy paths, and prove the corrected behavior with contracts and tests. Publish and merge only after the master execution contract and all applicable gates pass.
 
 Recorded authority is in `docs/codex/USER_DECISIONS.md`; the final publication
 record follows `docs/codex/HANDOFF_TEMPLATE.md`.

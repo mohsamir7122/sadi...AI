@@ -16,6 +16,7 @@ from .strict import parse_aware, parse_iso_date, require_sha256
 
 KUWAIT = ZoneInfo("Asia/Kuwait")
 POLICY_RELATIVE_PATH = "config/pilot/outcome_session_policy.json"
+SAUDI_POLICY_RELATIVE_PATH = "config/markets/saudi/outcome_session_policy.json"
 
 _POLICY_FIELDS = frozenset(
     {
@@ -69,16 +70,32 @@ def _validate_project_root(project_root: Path) -> tuple[Path | None, list[str]]:
     if pyproject is None or agents is None or start_here is None:
         return None, ["OUTCOME_SESSION_PROJECT_ROOT_KU_BO_MARKERS_NOT_COMMITTED"]
     marker = pyproject.decode("utf-8", errors="replace")
-    if (
-        'name = "kubo-kuwait-research-engine"' not in marker
-        or "https://github.com/mohsamir7122/ku-bo" not in marker
-    ):
+    kuwait_markers = (
+        'name = "kubo-kuwait-research-engine"' in marker
+        and "https://github.com/mohsamir7122/ku-bo" in marker
+    )
+    saudi_markers = (
+        'name = "sadi-ai-research-engine"' in marker
+        and "https://github.com/mohsamir7122/sadi...AI" in marker
+    )
+    if not (kuwait_markers or saudi_markers):
         return None, ["OUTCOME_SESSION_PROJECT_ROOT_KU_BO_MARKERS_INVALID"]
     return root, []
 
 
+def _policy_relative_path(project_root: Path) -> str:
+    """Resolve the policy in the committed market profile, not a donor path."""
+
+    committed = _committed_blob(project_root, "pyproject.toml")
+    if committed is not None and 'name = "sadi-ai-research-engine"' in committed.decode(
+        "utf-8", errors="replace"
+    ):
+        return SAUDI_POLICY_RELATIVE_PATH
+    return POLICY_RELATIVE_PATH
+
+
 def _policy_state(project_root: Path) -> tuple[dict[str, Any] | None, bytes | None, list[str]]:
-    policy_path = project_root / Path(POLICY_RELATIVE_PATH)
+    policy_path = project_root / Path(_policy_relative_path(project_root))
     try:
         current = safe_regular_file(
             policy_path,

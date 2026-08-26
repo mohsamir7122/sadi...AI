@@ -15,14 +15,12 @@ class CodexControlCheckTests(unittest.TestCase):
     def test_repository_control_layer_passes(self) -> None:
         report = validate(ROOT)
         self.assertEqual(report["status"], "PASS", report["errors"])
-        self.assertEqual(report["task_id"], "SAI-MERGE-001")
+        self.assertEqual(report["task_id"], "SAI-2026-08-26-PR2-REPAIR")
         self.assertEqual(
             report["expected_branch"],
-            "codex/saudi-engine-merger-v1",
+            "codex/saudi-engine-merger-v1-repair",
         )
-        self.assertTrue(
-            report["claim_boundaries"]["control_check_authorizes_merge"]
-        )
+        self.assertFalse(report["claim_boundaries"]["control_check_authorizes_merge"])
         self.assertFalse(
             report["claim_boundaries"]["control_check_proves_backtest_readiness"]
         )
@@ -41,8 +39,8 @@ class CodexControlCheckTests(unittest.TestCase):
             decisions = root / "docs/codex/USER_DECISIONS.md"
             decisions.write_text(
                 decisions.read_text(encoding="utf-8").replace(
-                    "DECISION_ID: SAI-DEC-006",
-                    "DECISION_ID: SAI-DEC-999",
+                    "DECISION_ID: SAI-2026-08-26-MERGE-COND-001",
+                    "DECISION_ID: SAI-2026-08-26-MERGE-REVOKED",
                     1,
                 ),
                 encoding="utf-8",

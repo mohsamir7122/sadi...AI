@@ -120,18 +120,14 @@ def validate(root: Path) -> dict[str, Any]:
         decisions_path = root / "docs/codex/USER_DECISIONS.md"
         decisions_text = _read(decisions_path) if decisions_path.is_file() else ""
         merge_authorized = (
-            metadata.get("MERGE_ALLOWED") == "YES_AFTER_GATES_PER_SAI-DEC-006"
-            and metadata.get("EXPECTED_PR_MODE") == "DIRECT_OR_REVIEW_PR_AFTER_GATES"
-            and "DECISION_ID: SAI-DEC-006" in decisions_text
-            and "USER_DECISION: Test and finish the new repository" in decisions_text
+            metadata.get("MERGE_ALLOWED") == "NO"
+            and metadata.get("EXPECTED_PR_MODE") == "DRAFT"
+            and "DECISION_ID: SAI-2026-08-26-MERGE-COND-001" in decisions_text
+            and "This authority is conditional, not absolute." in decisions_text
         )
         if not merge_authorized:
             errors.append("CURRENT_TASK_MERGE_AUTHORITY_MISSING_OR_MISMATCHED")
-        backtest_authorized = (
-            metadata.get("REAL_BACKTEST_ALLOWED")
-            == "YES_WITH_AUTHORIZED_POINT_IN_TIME_DATA"
-            and "DECISION_ID: SAI-DEC-007" in decisions_text
-        )
+        backtest_authorized = metadata.get("REAL_BACKTEST_ALLOWED") == "NO"
         if not backtest_authorized:
             errors.append("CURRENT_TASK_BACKTEST_AUTHORITY_MISSING_OR_MISMATCHED")
         if metadata.get("PRIVATE_SOURCE_PUBLICATION_ALLOWED") != (
@@ -141,7 +137,7 @@ def validate(root: Path) -> dict[str, Any]:
         for marker in (
             "docs/codex/HANDOFF_TEMPLATE.md",
             "docs/codex/USER_DECISIONS.md",
-            "SAI-DEC-006",
+            "SAI-2026-08-26-MERGE-COND-001",
             "LIVE_TRADING_ALLOWED: NO",
         ):
             if marker not in task_text:

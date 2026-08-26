@@ -105,6 +105,7 @@ class OutcomeSessionContractTests(unittest.TestCase):
 
     def test_repository_unfrozen_policy_blocks_forecast_recording_explicitly(self):
         authority = OutcomeSessionAuthority.from_structural_files(project_root=ROOT)
+        self.assertNotIn("OUTCOME_SESSION_PROJECT_ROOT_KU_BO_MARKERS_INVALID", authority.errors)
         self.assertIn("OUTCOME_SESSION_POLICY_NOT_FROZEN", authority.errors)
         with tempfile.TemporaryDirectory() as directory:
             ledger = ForecastLedger(
