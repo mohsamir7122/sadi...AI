@@ -43,6 +43,26 @@ USER_DECISION: Put the control package on target main so Codex can start from th
 IMPLEMENTATION_GUARD: Only the planning/control package may be merged now. The application merger must remain on its dedicated task branch and end in a Draft PR without merge.
 ```
 
+```text
+DECISION_ID: SAI-DEC-006
+STATUS: APPROVED
+DATE: 2026-08-25
+TARGET: mohsamir7122/sadi...AI
+CATEGORY: WORKFLOW; PUBLICATION; DEFAULT_BRANCH
+USER_DECISION: Test and finish the new repository, perform the necessary merger, push the completed work, and merge it into the repository default branch.
+IMPLEMENTATION_GUARD: Merge only after applicable tests and publication checks pass. No force push, credential publication, private/licensed data publication, or live order execution is authorized.
+```
+
+```text
+DECISION_ID: SAI-DEC-007
+STATUS: APPROVED
+DATE: 2026-08-25
+TARGET: recurring Saudi research workflows
+CATEGORY: AUTOMATION; RESEARCH
+USER_DECISION: Run a daily ten-year event training/validation/final-holdout laboratory at 22:00 with at least 50 primary and 300 probe events, and run a multi-horizon Saudi stock research scan thirty minutes after market open.
+IMPLEMENTATION_GUARD: Use Point-in-Time source-backed data and fail closed when data, rights, identity, or freshness are incomplete. Outputs are research candidates, not personalized recommendations or execution instructions.
+```
+
 ## Open decisions
 
 ```text

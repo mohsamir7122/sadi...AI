@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mohsamir7122/sadi...AI/schemas/saudi-nightly-event.schema.json",
+  "title": "Saudi nightly Point-in-Time historical event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id", "official_code", "prediction_at", "event_at", "evidence_known_at",
+    "cohort", "event_type", "source_id", "source_role", "rights_status", "factors",
+    "outcomes", "denominator_complete", "corporate_actions_reconciled", "identity_verified"
+  ],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1},
+    "official_code": {"type": "string", "pattern": "^[0-9]{4}$"},
+    "prediction_at": {"type": "string", "format": "date-time"},
+    "event_at": {"type": "string", "format": "date-time"},
+    "evidence_known_at": {"type": "string", "format": "date-time"},
+    "cohort": {"enum": ["PRIMARY", "PROBE"]},
+    "event_type": {"enum": ["EARNINGS", "GUIDANCE", "CORPORATE_ACTION", "LEGAL_REGULATORY", "SUSPENSION_STATUS", "GOVERNANCE", "MERGER_ACQUISITION", "MACRO_SECTOR", "PRICE_VOLUME_DISLOCATION"]},
+    "source_id": {"type": "string", "minLength": 1},
+    "source_role": {"enum": ["OFFICIAL_VERIFICATION", "REGULATORY_EVIDENCE", "ISSUER_DISCLOSURE", "LICENSED_MARKET_DATA"]},
+    "rights_status": {"enum": ["PUBLIC_RESEARCH_ALLOWED", "LICENSED_RESEARCH_ALLOWED"]},
+    "factors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["factor_id", "value", "known_at", "source_id", "rights_status"],
+        "properties": {
+          "factor_id": {"type": "string", "pattern": "^F9-"},
+          "value": {"type": "number"},
+          "known_at": {"type": "string", "format": "date-time"},
+          "source_id": {"type": "string", "minLength": 1},
+          "rights_status": {"enum": ["PUBLIC_RESEARCH_ALLOWED", "LICENSED_RESEARCH_ALLOWED"]}
+        }
+      }
+    },
+    "outcomes": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["horizon", "excess_return", "known_at", "price_basis"],
+        "properties": {
+          "horizon": {"enum": ["INTRADAY", "NEXT_SESSION", "WEEK", "MONTH", "YEAR"]},
+          "excess_return": {"type": "number"},
+          "known_at": {"type": "string", "format": "date-time"},
+          "price_basis": {"const": "CORPORATE_ACTION_ADJUSTED_TOTAL_RETURN"}
+        }
+      }
+    },
+    "denominator_complete": {"const": true},
+    "corporate_actions_reconciled": {"const": true},
+    "identity_verified": {"const": true}
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "status": "ready_for_codex_cli",
-  "phase": "P0_ORIENTATION_SOURCE_LOCK",
+  "status": "in_progress",
+  "phase": "P3_SAUDI_FOUNDATION_AND_INITIAL_CAPABILITY_SLICES",
   "current_task": "SAI-MERGE-001",
   "target": {
     "repository": "mohsamir7122/sadi...AI",
@@ -20,26 +20,29 @@
     "ku_bo": {
       "repository": "mohsamir7122/ku-bo",
       "observed_main_sha": "59833bf73510b3aa3901f628cbf2c13c0d01cf79",
-      "selected_commit": null
+      "selected_commit": "59833bf73510b3aa3901f628cbf2c13c0d01cf79"
     },
     "ai_mincy": {
       "repository": "mohsamir7122/AI-Mincy",
       "observed_main_sha": "85044b681b7048ac373e47e31f6c2bfa7a885c9c",
-      "selected_commits": []
+      "selected_commits": ["85044b681b7048ac373e47e31f6c2bfa7a885c9c", "51eb5449da225ef990facc803ce4c3bb7fb5e6b2"]
     }
   },
   "gate_status": {
-    "orientation_and_source_freeze": "pending",
-    "untouched_source_baselines": "pending",
+    "orientation_and_source_freeze": "passed_with_direct_git_read_access; gh_cli_login_missing",
+    "untouched_source_baselines": "incomplete; KUBO long suite interrupted; AI-Mincy collection errors on Windows fcntl and duplicate test module names",
     "provenance_and_rights": "pending_path_level_verification_under_SAI-DEC-003",
     "ku_bo_foundation": "pending",
-    "market_abstraction": "pending",
-    "saudi_foundation": "pending",
-    "ai_mincy_parity": "pending",
+    "market_abstraction": "partial",
+    "saudi_foundation": "partial",
+    "ai_mincy_parity": "partial_initial_slices",
     "full_validation": "pending",
     "draft_pr": "pending"
   },
-  "blockers": [],
-  "next_action": "Refresh repository state, create the task branch from the verified default-branch control package, then execute Phase 0 and write an immutable source lock.",
-  "updated_at_utc": "2026-08-25T13:51:55Z"
+  "blockers": [
+    "gh CLI is not authenticated; push/Draft PR publication cannot be performed until user signs in.",
+    "Full source baseline is not yet complete: AI-Mincy has Windows-only fcntl imports and duplicate pytest module names; KUBO full suite was interrupted after slow progress."
+  ],
+  "next_action": "Continue Saudi adapter and capability slices, install/enable test dependencies, then run full validation before any Draft PR.",
+  "updated_at_utc": "2026-08-25T16:08:19Z"
 }

@@ -1,0 +1,49 @@
+{
+  "task_id": "SAI-MERGE-001",
+  "locked_at": "2026-08-25T19:08:19+03:00",
+  "target": {
+    "repository": "mohsamir7122/sadi...AI",
+    "visibility": "public",
+    "base_branch": "main",
+    "base_commit": "96f5c8f247d9d6be0ad9709808c6e822dd68ed28",
+    "work_branch": "codex/saudi-engine-merger-v1"
+  },
+  "sources": [
+    {
+      "repository": "mohsamir7122/ku-bo",
+      "visibility": "public",
+      "selected_ref": "main",
+      "commit": "59833bf73510b3aa3901f628cbf2c13c0d01cf79",
+      "tree": "a4b56728aa4920f5578525f2736f17fbf4616151",
+      "selection": "Structural runtime, package, schema, evidence, ledger, trust, and test foundation.",
+      "write_protection": "local push URL disabled"
+    },
+    {
+      "repository": "mohsamir7122/AI-Mincy",
+      "visibility": "private",
+      "selected_ref": "main",
+      "commit": "85044b681b7048ac373e47e31f6c2bfa7a885c9c",
+      "tree": "e4df4a97e96c7833eaa6891f562762f4af8f58ea",
+      "selection": "Capability inventory and governed workflow donors; only selected, reviewed, Saudi-adapted behavior may be published.",
+      "write_protection": "local push URL disabled"
+    },
+    {
+      "repository": "mohsamir7122/AI-Mincy",
+      "visibility": "private",
+      "selected_ref": "agent/rebuild-ai-mincy-core-v2-20260805 (PR #13 head)",
+      "commit": "51eb5449da225ef990facc803ce4c3bb7fb5e6b2",
+      "tree": null,
+      "selection": "Candidate only for capability comparison; not imported as a wholesale branch.",
+      "write_protection": "local push URL disabled"
+    }
+  ],
+  "open_pr_disposition": {
+    "ku_bo": "Inspect per capability; use main as initial coherent baseline.",
+    "ai_mincy": "Inspect per capability; do not merge stacked PRs wholesale."
+  },
+  "baseline_environment": {
+    "python": "3.12.13 bundled runtime",
+    "pytest": "unavailable in bundled runtime at lock time",
+    "source_tests": "not recorded; execution blocked by missing pytest/dependency setup"
+  }
+}

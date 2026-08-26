@@ -2,23 +2,26 @@
 
 ```text
 TASK_ID: SAI-MERGE-001
-STATUS: READY_FOR_CODEX_CLI
+STATUS: IN_PROGRESS
 REPOSITORY: mohsamir7122/sadi...AI
 EXPECTED_TASK_BRANCH: codex/saudi-engine-merger-v1
-EXPECTED_PR_MODE: DRAFT
-MERGE_ALLOWED: NO
+EXPECTED_PR_MODE: DIRECT_OR_REVIEW_PR_AFTER_GATES
+MERGE_ALLOWED: YES_AFTER_GATES_PER_SAI-DEC-006
 FORCE_PUSH_ALLOWED: NO
 PERMANENT_DELETE_ALLOWED: NO
 SOURCE_REPOSITORY_WRITE_ALLOWED: NO
 REAL_MARKET_DATA_COMMIT_ALLOWED: NO
 PRIVATE_SOURCE_PUBLICATION_ALLOWED: SELECTED_IMPLEMENTATION_ONLY_PER_SAI-DEC-003
-REAL_BACKTEST_ALLOWED: NO
+REAL_BACKTEST_ALLOWED: YES_WITH_AUTHORIZED_POINT_IN_TIME_DATA
 LIVE_TRADING_ALLOWED: NO
 ```
 
 ## Mission
 
-Create a tested Saudi-first successor to KU-BO in the target repository. Preserve KU-BO as the runtime/package/evidence foundation, port or reimplement every useful non-duplicate AI-Mincy capability, isolate Kuwait-specific behavior, and prove capability parity with contracts and tests. Do not merge the Draft PR.
+Create a tested Saudi-first successor to KU-BO in the target repository. Preserve KU-BO as the runtime/package/evidence foundation, port or reimplement useful non-duplicate AI-Mincy capabilities, isolate Kuwait-specific behavior, and prove migrated behavior with contracts and tests. Publish and merge after the applicable gates pass under SAI-DEC-006.
+
+Recorded authority is in `docs/codex/USER_DECISIONS.md`; the final publication
+record follows `docs/codex/HANDOFF_TEMPLATE.md`.
 
 ## Execution sequence
 
@@ -122,11 +125,10 @@ Exit: all applicable gates pass, or final status is `PARTIAL/BLOCKED` with no ov
 
 ### Phase 7 — publication boundary
 
-1. Push only `codex/saudi-engine-merger-v1` without force.
-2. Open or update a Draft PR against target `main`.
-3. Include source lock, capability results, exact tests, claims/non-claims, open decisions, and known limitations.
-4. Write the final handoff under `docs/codex/handoffs/SAI-MERGE-001-result.md`.
-5. Do not merge.
+1. Push `codex/saudi-engine-merger-v1` without force.
+2. Include source lock, capability results, exact tests, claims/non-claims, open decisions, and known limitations in the publication record.
+3. Write the final handoff under `docs/codex/handoffs/SAI-MERGE-001-result.md`.
+4. Merge into `main` only when applicable local and remote checks pass; never force push.
 
 ## Done when
 
