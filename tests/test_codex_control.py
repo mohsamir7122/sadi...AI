@@ -16,9 +16,10 @@ class CodexControlCheckTests(unittest.TestCase):
         report = validate(ROOT)
         self.assertEqual(report["status"], "PASS", report["errors"])
         self.assertEqual(report["task_id"], "SAI-2026-08-26-PR2-REPAIR")
+        self.assertEqual(report["task_status"], "COMPLETED")
         self.assertEqual(
             report["expected_branch"],
-            "codex/saudi-engine-merger-v1-repair",
+            "main",
         )
         self.assertFalse(report["claim_boundaries"]["control_check_authorizes_merge"])
         self.assertFalse(
