@@ -103,8 +103,9 @@ jobs:
         run: python scripts/smoke_check.py
       - name: Secret-pattern guard
         run: python scripts/secret_guard.py
-      - name: Build and exercise the repository-bound wheel
+      - name: Build source/wheel distributions and exercise the wheel
         run: |
+          python -c 'from setuptools.build_meta import build_sdist; build_sdist("dist")'
           python -m pip wheel --no-deps --wheel-dir dist .
           installed_venv="$RUNNER_TEMP/kubo-installed-wheel-venv"
           python -m venv "$installed_venv"
@@ -117,9 +118,11 @@ jobs:
           installed_foundation="$installed_venv/bin/kubo-data-foundation"
           installed_sadi="$installed_venv/bin/sadi-ai"
           installed_nightly="$installed_venv/bin/sadi-nightly"
+          installed_holdout="$installed_venv/bin/sadi-holdout-score"
           installed_post_open="$installed_venv/bin/sadi-post-open"
           "$installed_sadi" --help | grep -q "Saudi Exchange"
           "$installed_nightly" --help | grep -q "ten-year event laboratory"
+          "$installed_holdout" --help | grep -q "separate process"
           "$installed_post_open" --help | grep -q "open plus thirty minutes"
           "$installed_kubo" --project-root "$GITHUB_WORKSPACE" validate-source-network
           "$installed_kubo" --project-root "$GITHUB_WORKSPACE" validate-research-workflow

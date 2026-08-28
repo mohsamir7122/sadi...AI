@@ -1,27 +1,29 @@
 {
   "schema_version": 1,
-  "status": "completed",
-  "phase": "P7_SAUDI_PR2_REPAIR_MERGED",
-  "current_task": "SAI-2026-08-26-PR2-REPAIR",
+  "status": "in_progress",
+  "phase": "INTEGRITY_HARDENING_IMPLEMENTATION",
+  "current_task": "SAI-2026-08-28-INTEGRITY-HARDENING",
   "target": {
     "repository": "mohsamir7122/sadi...AI",
     "observed_visibility": "public",
     "base_branch": "main",
-    "main_merge_commit": "24735a34084dc42f285927560723b36b80818c59",
-    "post_merge_status_commit": "78fd23c"
+    "current_main_commit": "fcb8f482990d410b6916f60a368d8ba059e1588c",
+    "active_branch": "codex/saudi-integrity-hardening-v1"
   },
   "candidate": {
-    "pr": 2,
-    "candidate_sha": "f1040c55bfe77bb9324cb6ff9cf88c1403dfc309",
-    "merge_commit": "24735a34084dc42f285927560723b36b80818c59",
-    "exact_head_ci_runs": [32989063479, 32990157162]
+    "latest_merged_pr": 3,
+    "latest_merged_head": "da3696d29e2d539bd086f8ab2f6441a14eda0a68",
+    "merge_commit": "fcb8f482990d410b6916f60a368d8ba059e1588c",
+    "exact_head_ci_runs": [33111406726]
   },
   "gate_status": {
-    "root_marker_policy_repair": "passed",
-    "local_full_suite": "passed_2103",
-    "exact_head_ci": "passed_python_3.11_to_3.14",
-    "control_and_secret_guards": "passed",
-    "merge": "completed_under_conditional_authority"
+    "pr3_exact_head_ci": "passed",
+    "post_merge_main_ci": "not_observed",
+    "local_full_suite": "pending",
+    "exact_head_ci": "pending_for_new_draft_pr",
+    "control_and_secret_guards": "pending",
+    "merge": "not_allowed_in_current_task_state",
+    "saudi_data_foundation": "blocked_until_post_merge_main_ci_passes"
   },
   "claim_boundaries": {
     "live_operational": false,
@@ -29,5 +31,5 @@
     "prospective_validated": false,
     "model_training_completed": false
   },
-  "updated_at_utc": "2026-08-26T17:00:50Z"
+  "updated_at_utc": "2026-08-28T00:00:00Z"
 }

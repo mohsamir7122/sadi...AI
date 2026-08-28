@@ -6,7 +6,10 @@ The merger is asymmetric:
 
 - KU-BO is the structural base because it already has a conventional Python package, schemas, configuration, tests, CLI, evidence/ledger separation, temporal checks, Corporate Action/status handling, packaging, and strict fail-closed behavior.
 - AI-Mincy is a capability donor because it contains a broader catalog of task-oriented Skills and specialized workflows.
-- The target is not a folder union. It is a KU-BO successor with verified AI-Mincy behavioral parity and Saudi market adapters.
+- The target is not a folder union. It is intended to become a KU-BO successor
+  with verified AI-Mincy behavioral parity and Saudi market adapters; that
+  parity remains capability-by-capability work, not a current repository-wide
+  claim.
 
 ## Why a direct Git merge is rejected
 

@@ -12,7 +12,9 @@ The active path is deliberately layered:
 
 The Saudi adapter is Main Market first. A four-digit official code and
 effective-dated identity are required for joins; a ticker is only a display or
-provider alias. Every historical request has both `as_of` and `known_at`.
+provider alias. Identity and calendar historical lookups require the applicable
+`as_of` and/or `known_at` cutoff; some structural registries are not bitemporal
+yet, so the architecture does not claim both cutoffs on every request.
 
 Official sources are declared but begin as `DEFINED_ONLY`. A URL in the source
 catalog does not grant access, freshness, model-use rights, or redistribution

@@ -2,6 +2,9 @@
 
 Use this checklist for each capability-slice commit and again on the exact Draft PR head. Record evidence; do not mark an item from expectation.
 
+`Exact Draft PR head` means the checked-out commit SHA equals the PR's
+candidate-head SHA. A merge ref or an earlier branch commit is insufficient.
+
 ## Repository and source lock
 
 - [ ] Target remote, visibility, default branch, task branch, and clean/dirty state are verified.

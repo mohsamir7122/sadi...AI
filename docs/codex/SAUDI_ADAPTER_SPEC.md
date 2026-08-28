@@ -29,9 +29,17 @@ CorporateActionProvider
 SourceAuthorityProvider
 ```
 
-Every historical query accepts `as_of` or `known_at` at the storage/query boundary. Loading today's table and filtering afterward does not satisfy Point-in-Time correctness.
+Identity and calendar historical lookups require their applicable `as_of` and/or
+`known_at` cutoffs at the storage/query boundary. Not every Saudi structural
+registry is bitemporal yet. Loading today's table and filtering afterward does
+not satisfy Point-in-Time correctness.
 
-Recommended Saudi modules under the actual KU-BO package root:
+Saudi modules under the actual KU-BO package root are listed below. This slice
+directly hardens `config.py`, `calendar.py`, `identity.py`, and `engine.py`;
+`benchmarks.py`, `rules.py`, and `sources.py` already exist as bounded structural
+modules. `security_master.py`, `universe.py`, `prices.py`, `disclosures.py`,
+`xbrl.py`, and `corporate_actions.py` remain planned rather than present
+capabilities:
 
 ```text
 markets/saudi/config.py
@@ -52,7 +60,7 @@ markets/saudi/sources.py
 Do not use the four-digit trading symbol as a permanent primary key. Model issuer, security, and listing separately. Each security/listing record needs:
 
 - stable internal `issuer_id` and `security_id`;
-- official Saudi Exchange symbol and ISIN;
+- official Saudi Exchange symbol and ISIN where available;
 - Arabic and English legal/trading names;
 - segment and instrument type;
 - currency, sector, industry, listing/status intervals, nominal value, shares outstanding, and free float where supported;
@@ -132,7 +140,7 @@ Evidence priority:
 
 A secondary source cannot silently override an official filing, price, status, or Corporate Action. Delayed website data is never labeled live. Official reference: [Saudi Exchange market data services](https://www.saudiexchange.sa/wps/portal/saudiexchange/trading/market-services/market-information-services/market-data).
 
-## Mandatory fixtures
+## Mandatory fixtures for production readiness (not currently present)
 
 Create immutable raw snapshots plus expected normalized outputs for:
 

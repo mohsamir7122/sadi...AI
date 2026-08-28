@@ -1,0 +1,734 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mohsamir7122/sadi...AI/schemas/saudi-post-open-report.schema.json",
+  "title": "Saudi post-open structural or admission-bound research report",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "status": {},
+    "market": {},
+    "scan_at": {},
+    "governed_start": {},
+    "governed_end": {},
+    "calendar_revision_id": {},
+    "calendar_source_id": {},
+    "evidence_class": {},
+    "input_admission_authenticated": {},
+    "admission_trust_class": {},
+    "admission": {},
+    "report_authenticated": {},
+    "report_is_market_evidence": {},
+    "denominator_complete": {},
+    "expected_security_count": {},
+    "observed_security_count": {},
+    "input_record_count": {},
+    "missing_official_codes": {},
+    "unexpected_official_codes": {},
+    "duplicate_official_codes": {},
+    "admitted_security_count": {},
+    "rejected": {},
+    "reason": {},
+    "candidates_by_horizon": {},
+    "probability": {},
+    "recommendation": {},
+    "order": {},
+    "claim_boundary": {}
+  },
+  "oneOf": [
+    {"$ref": "#/$defs/coreAbstain"},
+    {"$ref": "#/$defs/admissionBoundAbstain"},
+    {"$ref": "#/$defs/coreDenominatorAbstain"},
+    {"$ref": "#/$defs/admissionBoundDenominatorAbstain"},
+    {"$ref": "#/$defs/coreLiquidityAbstain"},
+    {"$ref": "#/$defs/admissionBoundLiquidityAbstain"},
+    {"$ref": "#/$defs/unauthenticatedCandidates"},
+    {"$ref": "#/$defs/syntheticCandidates"},
+    {"$ref": "#/$defs/readyCandidates"}
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,254}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rejection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["official_code", "reason"],
+      "properties": {
+        "official_code": {"type": "string", "pattern": "^[0-9]{4}$"},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "liquidityRejection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["official_code", "reason"],
+      "properties": {
+        "official_code": {"type": "string", "pattern": "^[0-9]{4}$"},
+        "reason": {"const": "LIQUIDITY_FLOOR_NOT_MET"}
+      }
+    },
+    "officialCodeList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[0-9]{4}$"}
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rank",
+        "official_code",
+        "horizon",
+        "research_score",
+        "research_status",
+        "observed_at",
+        "latency_class",
+        "currency",
+        "last_price_sar",
+        "source_id",
+        "probability",
+        "recommendation",
+        "order"
+      ],
+      "properties": {
+        "rank": {"type": "integer", "minimum": 1, "maximum": 25},
+        "official_code": {"type": "string", "pattern": "^[0-9]{4}$"},
+        "horizon": {
+          "enum": ["INTRADAY", "NEXT_SESSION", "WEEK", "MONTH", "YEAR"]
+        },
+        "research_score": {"type": "number"},
+        "research_status": {
+          "enum": ["RESEARCH_CANDIDATE", "RESEARCH_WATCHLIST"]
+        },
+        "observed_at": {"$ref": "#/$defs/timestamp"},
+        "latency_class": {"enum": ["REAL_TIME", "DELAYED"]},
+        "currency": {"const": "SAR"},
+        "last_price_sar": {"type": "number", "exclusiveMinimum": 0},
+        "source_id": {"type": "string", "minLength": 1},
+        "probability": {"const": null},
+        "recommendation": {"const": null},
+        "order": {"const": null}
+      }
+    },
+    "intradayCandidates": {
+      "type": "array",
+      "maxItems": 25,
+      "items": {
+        "allOf": [
+          {"$ref": "#/$defs/candidate"},
+          {"properties": {"horizon": {"const": "INTRADAY"}}}
+        ]
+      }
+    },
+    "nextSessionCandidates": {
+      "type": "array",
+      "maxItems": 25,
+      "items": {
+        "allOf": [
+          {"$ref": "#/$defs/candidate"},
+          {"properties": {"horizon": {"const": "NEXT_SESSION"}}}
+        ]
+      }
+    },
+    "weekCandidates": {
+      "type": "array",
+      "maxItems": 25,
+      "items": {
+        "allOf": [
+          {"$ref": "#/$defs/candidate"},
+          {"properties": {"horizon": {"const": "WEEK"}}}
+        ]
+      }
+    },
+    "monthCandidates": {
+      "type": "array",
+      "maxItems": 25,
+      "items": {
+        "allOf": [
+          {"$ref": "#/$defs/candidate"},
+          {"properties": {"horizon": {"const": "MONTH"}}}
+        ]
+      }
+    },
+    "yearCandidates": {
+      "type": "array",
+      "maxItems": 25,
+      "items": {
+        "allOf": [
+          {"$ref": "#/$defs/candidate"},
+          {"properties": {"horizon": {"const": "YEAR"}}}
+        ]
+      }
+    },
+    "candidatesByHorizon": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["INTRADAY", "NEXT_SESSION", "WEEK", "MONTH", "YEAR"],
+      "properties": {
+        "INTRADAY": {"$ref": "#/$defs/intradayCandidates"},
+        "NEXT_SESSION": {"$ref": "#/$defs/nextSessionCandidates"},
+        "WEEK": {"$ref": "#/$defs/weekCandidates"},
+        "MONTH": {"$ref": "#/$defs/monthCandidates"},
+        "YEAR": {"$ref": "#/$defs/yearCandidates"}
+      }
+    },
+    "postOpenExecution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scan_at",
+        "maximum_market_age_minutes",
+        "minimum_turnover_sar",
+        "maximum_candidates_per_horizon"
+      ],
+      "properties": {
+        "scan_at": {"$ref": "#/$defs/timestamp"},
+        "maximum_market_age_minutes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 15
+        },
+        "minimum_turnover_sar": {"type": "number", "minimum": 0},
+        "maximum_candidates_per_horizon": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 25
+        }
+      }
+    },
+    "artifactHashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input", "identity", "calendar", "weights"],
+      "properties": {
+        "input": {"$ref": "#/$defs/sha256"},
+        "identity": {"$ref": "#/$defs/sha256"},
+        "calendar": {"$ref": "#/$defs/sha256"},
+        "weights": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "postOpenAssertions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity_point_in_time_verified",
+        "model_use_rights_verified",
+        "source_authority_verified",
+        "licensed_entitlements_verified_or_not_applicable",
+        "denominator_complete",
+        "corporate_actions_reconciled"
+      ],
+      "properties": {
+        "identity_point_in_time_verified": {"const": true},
+        "model_use_rights_verified": {"const": true},
+        "source_authority_verified": {"const": true},
+        "licensed_entitlements_verified_or_not_applicable": {"const": true},
+        "denominator_complete": {"const": true},
+        "corporate_actions_reconciled": {"const": null}
+      }
+    },
+    "admissionSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_id",
+        "purpose",
+        "trust_class",
+        "issued_at",
+        "expires_at",
+        "authenticated_key_id",
+        "content_sha256",
+        "execution_contract",
+        "artifact_sha256",
+        "assertions",
+        "market_evidence_trust_class",
+        "receipt_is_market_evidence"
+      ],
+      "properties": {
+        "receipt_id": {"$ref": "#/$defs/identifier"},
+        "purpose": {"const": "POST_OPEN_MODEL_USE"},
+        "trust_class": {"type": "string", "minLength": 1},
+        "issued_at": {"$ref": "#/$defs/timestamp"},
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "authenticated_key_id": {"$ref": "#/$defs/identifier"},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "execution_contract": {"$ref": "#/$defs/postOpenExecution"},
+        "artifact_sha256": {"$ref": "#/$defs/artifactHashes"},
+        "assertions": {"$ref": "#/$defs/postOpenAssertions"},
+        "market_evidence_trust_class": {"type": "string", "minLength": 1},
+        "receipt_is_market_evidence": {"const": false}
+      }
+    },
+    "nonSyntheticAdmissionSummary": {
+      "allOf": [
+        {"$ref": "#/$defs/admissionSummary"},
+        {
+          "properties": {
+            "trust_class": {"not": {"const": "SYNTHETIC_ONLY"}},
+            "market_evidence_trust_class": {
+              "not": {"const": "SYNTHETIC_ONLY"}
+            }
+          }
+        }
+      ]
+    },
+    "coreAbstain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "market",
+        "scan_at",
+        "reason",
+        "candidates_by_horizon",
+        "probability",
+        "recommendation",
+        "order",
+        "claim_boundary"
+      ],
+      "properties": {
+        "status": {"const": "ABSTAIN"},
+        "market": {"const": "SAUDI_EXCHANGE"},
+        "scan_at": {"$ref": "#/$defs/timestamp"},
+        "reason": {"type": "string", "minLength": 1},
+        "rejected": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/rejection"}
+        },
+        "candidates_by_horizon": {"const": {}},
+        "probability": {"const": null},
+        "recommendation": {"const": null},
+        "order": {"const": null},
+        "claim_boundary": {
+          "const": "No candidate or trading claim was produced"
+        }
+      }
+    },
+    "admissionBoundAbstain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "market",
+        "scan_at",
+        "reason",
+        "candidates_by_horizon",
+        "probability",
+        "recommendation",
+        "order",
+        "claim_boundary",
+        "input_admission_authenticated",
+        "admission_trust_class",
+        "admission",
+        "report_authenticated",
+        "report_is_market_evidence"
+      ],
+      "properties": {
+        "status": {"const": "ABSTAIN"},
+        "market": {"const": "SAUDI_EXCHANGE"},
+        "scan_at": {"$ref": "#/$defs/timestamp"},
+        "reason": {"type": "string", "minLength": 1},
+        "rejected": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/rejection"}
+        },
+        "candidates_by_horizon": {"const": {}},
+        "probability": {"const": null},
+        "recommendation": {"const": null},
+        "order": {"const": null},
+        "claim_boundary": {
+          "const": "No candidate or trading claim was produced"
+        },
+        "input_admission_authenticated": {"const": true},
+        "admission_trust_class": {"type": "string", "minLength": 1},
+        "admission": {"$ref": "#/$defs/admissionSummary"},
+        "report_authenticated": {"const": false},
+        "report_is_market_evidence": {"const": false}
+      }
+    },
+    "coreDenominatorAbstain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "market",
+        "scan_at",
+        "reason",
+        "candidates_by_horizon",
+        "probability",
+        "recommendation",
+        "order",
+        "claim_boundary",
+        "denominator_complete",
+        "expected_security_count",
+        "observed_security_count",
+        "input_record_count",
+        "missing_official_codes",
+        "unexpected_official_codes",
+        "duplicate_official_codes"
+      ],
+      "properties": {
+        "status": {"const": "ABSTAIN"},
+        "market": {"const": "SAUDI_EXCHANGE"},
+        "scan_at": {"$ref": "#/$defs/timestamp"},
+        "reason": {
+          "enum": [
+            "INCOMPLETE_OBSERVATION_DENOMINATOR",
+            "EMPTY_OR_UNVERIFIED_UNIVERSE"
+          ]
+        },
+        "rejected": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/rejection"}
+        },
+        "candidates_by_horizon": {"const": {}},
+        "probability": {"const": null},
+        "recommendation": {"const": null},
+        "order": {"const": null},
+        "claim_boundary": {
+          "const": "No candidate or trading claim was produced"
+        },
+        "denominator_complete": {"const": false},
+        "expected_security_count": {"type": "integer", "minimum": 0},
+        "observed_security_count": {"type": "integer", "minimum": 0},
+        "input_record_count": {"type": "integer", "minimum": 0},
+        "missing_official_codes": {"$ref": "#/$defs/officialCodeList"},
+        "unexpected_official_codes": {"$ref": "#/$defs/officialCodeList"},
+        "duplicate_official_codes": {"$ref": "#/$defs/officialCodeList"}
+      }
+    },
+    "admissionBoundDenominatorAbstain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "market",
+        "scan_at",
+        "reason",
+        "candidates_by_horizon",
+        "probability",
+        "recommendation",
+        "order",
+        "claim_boundary",
+        "denominator_complete",
+        "expected_security_count",
+        "observed_security_count",
+        "input_record_count",
+        "missing_official_codes",
+        "unexpected_official_codes",
+        "duplicate_official_codes",
+        "input_admission_authenticated",
+        "admission_trust_class",
+        "admission",
+        "report_authenticated",
+        "report_is_market_evidence"
+      ],
+      "properties": {
+        "status": {"const": "ABSTAIN"},
+        "market": {"const": "SAUDI_EXCHANGE"},
+        "scan_at": {"$ref": "#/$defs/timestamp"},
+        "reason": {
+          "enum": [
+            "INCOMPLETE_OBSERVATION_DENOMINATOR",
+            "EMPTY_OR_UNVERIFIED_UNIVERSE"
+          ]
+        },
+        "rejected": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/rejection"}
+        },
+        "candidates_by_horizon": {"const": {}},
+        "probability": {"const": null},
+        "recommendation": {"const": null},
+        "order": {"const": null},
+        "claim_boundary": {
+          "const": "No candidate or trading claim was produced"
+        },
+        "denominator_complete": {"const": false},
+        "expected_security_count": {"type": "integer", "minimum": 0},
+        "observed_security_count": {"type": "integer", "minimum": 0},
+        "input_record_count": {"type": "integer", "minimum": 0},
+        "missing_official_codes": {"$ref": "#/$defs/officialCodeList"},
+        "unexpected_official_codes": {"$ref": "#/$defs/officialCodeList"},
+        "duplicate_official_codes": {"$ref": "#/$defs/officialCodeList"},
+        "input_admission_authenticated": {"const": true},
+        "admission_trust_class": {"type": "string", "minLength": 1},
+        "admission": {"$ref": "#/$defs/admissionSummary"},
+        "report_authenticated": {"const": false},
+        "report_is_market_evidence": {"const": false}
+      }
+    },
+    "coreLiquidityAbstain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "market",
+        "scan_at",
+        "reason",
+        "candidates_by_horizon",
+        "probability",
+        "recommendation",
+        "order",
+        "claim_boundary",
+        "denominator_complete",
+        "expected_security_count",
+        "observed_security_count",
+        "input_record_count",
+        "admitted_security_count",
+        "rejected"
+      ],
+      "properties": {
+        "status": {"const": "ABSTAIN"},
+        "market": {"const": "SAUDI_EXCHANGE"},
+        "scan_at": {"$ref": "#/$defs/timestamp"},
+        "reason": {"const": "NO_SECURITIES_MEET_LIQUIDITY_FLOOR"},
+        "rejected": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/liquidityRejection"}
+        },
+        "candidates_by_horizon": {"const": {}},
+        "probability": {"const": null},
+        "recommendation": {"const": null},
+        "order": {"const": null},
+        "claim_boundary": {
+          "const": "No candidate or trading claim was produced"
+        },
+        "denominator_complete": {"const": true},
+        "expected_security_count": {"type": "integer", "minimum": 0},
+        "observed_security_count": {"type": "integer", "minimum": 0},
+        "input_record_count": {"type": "integer", "minimum": 0},
+        "admitted_security_count": {"const": 0}
+      }
+    },
+    "admissionBoundLiquidityAbstain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "market",
+        "scan_at",
+        "reason",
+        "candidates_by_horizon",
+        "probability",
+        "recommendation",
+        "order",
+        "claim_boundary",
+        "denominator_complete",
+        "expected_security_count",
+        "observed_security_count",
+        "input_record_count",
+        "admitted_security_count",
+        "rejected",
+        "input_admission_authenticated",
+        "admission_trust_class",
+        "admission",
+        "report_authenticated",
+        "report_is_market_evidence"
+      ],
+      "properties": {
+        "status": {"const": "ABSTAIN"},
+        "market": {"const": "SAUDI_EXCHANGE"},
+        "scan_at": {"$ref": "#/$defs/timestamp"},
+        "reason": {"const": "NO_SECURITIES_MEET_LIQUIDITY_FLOOR"},
+        "rejected": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/liquidityRejection"}
+        },
+        "candidates_by_horizon": {"const": {}},
+        "probability": {"const": null},
+        "recommendation": {"const": null},
+        "order": {"const": null},
+        "claim_boundary": {
+          "const": "No candidate or trading claim was produced"
+        },
+        "denominator_complete": {"const": true},
+        "expected_security_count": {"type": "integer", "minimum": 0},
+        "observed_security_count": {"type": "integer", "minimum": 0},
+        "input_record_count": {"type": "integer", "minimum": 0},
+        "admitted_security_count": {"const": 0},
+        "input_admission_authenticated": {"const": true},
+        "admission_trust_class": {"type": "string", "minLength": 1},
+        "admission": {"$ref": "#/$defs/admissionSummary"},
+        "report_authenticated": {"const": false},
+        "report_is_market_evidence": {"const": false}
+      }
+    },
+    "unauthenticatedCandidates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "market",
+        "scan_at",
+        "governed_start",
+        "governed_end",
+        "calendar_revision_id",
+        "calendar_source_id",
+        "evidence_class",
+        "input_admission_authenticated",
+        "denominator_complete",
+        "expected_security_count",
+        "observed_security_count",
+        "input_record_count",
+        "admitted_security_count",
+        "rejected",
+        "candidates_by_horizon",
+        "claim_boundary"
+      ],
+      "properties": {
+        "status": {"const": "UNAUTHENTICATED_RESEARCH_CANDIDATES"},
+        "market": {"const": "SAUDI_EXCHANGE"},
+        "scan_at": {"$ref": "#/$defs/timestamp"},
+        "governed_start": {"$ref": "#/$defs/timestamp"},
+        "governed_end": {"$ref": "#/$defs/timestamp"},
+        "calendar_revision_id": {"type": "string", "minLength": 1},
+        "calendar_source_id": {"type": "string", "minLength": 1},
+        "evidence_class": {
+          "enum": ["SYNTHETIC_ONLY", "RECORDED_AUTHORIZED_FIXTURE", "UNVERIFIED"]
+        },
+        "input_admission_authenticated": {"const": false},
+        "denominator_complete": {"const": true},
+        "expected_security_count": {"type": "integer", "minimum": 1},
+        "observed_security_count": {"type": "integer", "minimum": 1},
+        "input_record_count": {"type": "integer", "minimum": 1},
+        "admitted_security_count": {"type": "integer", "minimum": 1},
+        "rejected": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/liquidityRejection"}
+        },
+        "candidates_by_horizon": {"$ref": "#/$defs/candidatesByHorizon"},
+        "claim_boundary": {
+          "const": "In-memory library result only; inputs are not proven to match admission artifact bytes, and no market-evidence or trading claim is produced"
+        }
+      }
+    },
+    "syntheticCandidates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "market",
+        "scan_at",
+        "governed_start",
+        "governed_end",
+        "calendar_revision_id",
+        "calendar_source_id",
+        "evidence_class",
+        "input_admission_authenticated",
+        "admission_trust_class",
+        "admission",
+        "report_authenticated",
+        "report_is_market_evidence",
+        "denominator_complete",
+        "expected_security_count",
+        "observed_security_count",
+        "input_record_count",
+        "admitted_security_count",
+        "rejected",
+        "candidates_by_horizon",
+        "claim_boundary"
+      ],
+      "properties": {
+        "status": {"const": "SYNTHETIC_RESEARCH_CANDIDATES"},
+        "market": {"const": "SAUDI_EXCHANGE"},
+        "scan_at": {"$ref": "#/$defs/timestamp"},
+        "governed_start": {"$ref": "#/$defs/timestamp"},
+        "governed_end": {"$ref": "#/$defs/timestamp"},
+        "calendar_revision_id": {"type": "string", "minLength": 1},
+        "calendar_source_id": {"type": "string", "minLength": 1},
+        "evidence_class": {"const": "SYNTHETIC_ONLY"},
+        "input_admission_authenticated": {"const": true},
+        "admission_trust_class": {"type": "string", "minLength": 1},
+        "admission": {"$ref": "#/$defs/admissionSummary"},
+        "report_authenticated": {"const": false},
+        "report_is_market_evidence": {"const": false},
+        "denominator_complete": {"const": true},
+        "expected_security_count": {"type": "integer", "minimum": 1},
+        "observed_security_count": {"type": "integer", "minimum": 1},
+        "input_record_count": {"type": "integer", "minimum": 1},
+        "admitted_security_count": {"type": "integer", "minimum": 1},
+        "rejected": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/liquidityRejection"}
+        },
+        "candidates_by_horizon": {"$ref": "#/$defs/candidatesByHorizon"},
+        "claim_boundary": {
+          "const": "Synthetic behavioral output only; not market evidence or a production research claim"
+        }
+      }
+    },
+    "readyCandidates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "market",
+        "scan_at",
+        "governed_start",
+        "governed_end",
+        "calendar_revision_id",
+        "calendar_source_id",
+        "evidence_class",
+        "input_admission_authenticated",
+        "admission_trust_class",
+        "admission",
+        "report_authenticated",
+        "report_is_market_evidence",
+        "denominator_complete",
+        "expected_security_count",
+        "observed_security_count",
+        "input_record_count",
+        "admitted_security_count",
+        "rejected",
+        "candidates_by_horizon",
+        "claim_boundary"
+      ],
+      "properties": {
+        "status": {"const": "RESEARCH_CANDIDATES_READY"},
+        "market": {"const": "SAUDI_EXCHANGE"},
+        "scan_at": {"$ref": "#/$defs/timestamp"},
+        "governed_start": {"$ref": "#/$defs/timestamp"},
+        "governed_end": {"$ref": "#/$defs/timestamp"},
+        "calendar_revision_id": {"type": "string", "minLength": 1},
+        "calendar_source_id": {"type": "string", "minLength": 1},
+        "evidence_class": {"const": "RECORDED_AUTHORIZED_FIXTURE"},
+        "input_admission_authenticated": {"const": true},
+        "admission_trust_class": {
+          "type": "string",
+          "minLength": 1,
+          "not": {"const": "SYNTHETIC_ONLY"}
+        },
+        "admission": {"$ref": "#/$defs/nonSyntheticAdmissionSummary"},
+        "report_authenticated": {"const": false},
+        "report_is_market_evidence": {"const": false},
+        "denominator_complete": {"const": true},
+        "expected_security_count": {"type": "integer", "minimum": 1},
+        "observed_security_count": {"type": "integer", "minimum": 1},
+        "input_record_count": {"type": "integer", "minimum": 1},
+        "admitted_security_count": {"type": "integer", "minimum": 1},
+        "rejected": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/liquidityRejection"}
+        },
+        "candidates_by_horizon": {"$ref": "#/$defs/candidatesByHorizon"},
+        "claim_boundary": {
+          "const": "Admission-bound research candidates only; no personalized recommendation, probability, order, or execution"
+        }
+      }
+    }
+  }
+}

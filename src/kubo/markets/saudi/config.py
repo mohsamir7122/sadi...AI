@@ -14,6 +14,7 @@ RIYADH_TZ = "Asia/Riyadh"
 TASI = "TASI"
 MT30 = "MT30"
 NOMUC = "NomuC"
+ORDINARY_EQUITY = "ORDINARY_EQUITY"
 
 
 @dataclass(frozen=True)

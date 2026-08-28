@@ -5,7 +5,12 @@ but is disabled unless a caller opts into a separate, tested segment policy.
 """
 
 from .benchmarks import SaudiBenchmarkRegistry
-from .calendar import SaudiSession, SaudiTradingCalendar
+from .calendar import (
+    SaudiCalendarRevision,
+    SaudiSession,
+    SaudiTradingCalendar,
+    load_saudi_calendar_revision,
+)
 from .config import SAUDI_MARKET
 from .identity import SaudiSecurityMaster, SaudiSecurityRecord
 from .sources import SAUDI_SOURCES
@@ -14,8 +19,10 @@ __all__ = [
     "SAUDI_MARKET",
     "SAUDI_SOURCES",
     "SaudiBenchmarkRegistry",
+    "SaudiCalendarRevision",
     "SaudiSecurityMaster",
     "SaudiSecurityRecord",
     "SaudiSession",
     "SaudiTradingCalendar",
+    "load_saudi_calendar_revision",
 ]
