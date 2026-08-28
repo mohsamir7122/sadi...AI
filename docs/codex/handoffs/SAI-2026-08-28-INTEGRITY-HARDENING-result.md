@@ -4,8 +4,8 @@ TARGET_VISIBILITY: public
 BASE_BRANCH: main
 STARTING_SHA: fcb8f482990d410b6916f60a368d8ba059e1588c
 TASK_BRANCH: codex/saudi-integrity-hardening-v1
-IMPLEMENTATION_SHA: bcac0faddd92ecf8cc7b3a170b7336919c74a513
-FINAL_SHA: bcac0faddd92ecf8cc7b3a170b7336919c74a513 — implementation; this handoff metadata follows it and the PR API is authoritative for the candidate head
+IMPLEMENTATION_SHA: dc66ff5ca47014494e828aed09ffa85becdfa6d4
+FINAL_SHA: dc66ff5ca47014494e828aed09ffa85becdfa6d4 — implementation; this handoff metadata follows it and the PR API is authoritative for the candidate head
 DRAFT_PR: https://github.com/mohsamir7122/sadi...AI/pull/5
 CI_RUN: PENDING — exact final Draft PR head has not completed the Python 3.11–3.14 matrix
 PHASE: Synthetic Saudi integrity hardening and Draft PR handoff
@@ -56,14 +56,16 @@ live workflow was present.
   checkpoint behavior only; broker execution, persistence, and collectors were
   not added.
 - Updated v0.3 packaging, migration/operations/capability documentation,
-  provenance, and the Draft-only control surface.
+  provenance, and the Draft-only control surface. Distribution CI uses the
+  pinned PEP 517 `build` frontend rather than assuming `setuptools` is installed
+  in the runner environment.
 
 ## Validation
 
 ```text
 FINAL LOCAL FULL SUITE:
 RESULT: PASS
-DETAIL: 2177 tests in 169.360 seconds.
+DETAIL: 2177 tests in 169.654 seconds after the isolated-build repair.
 
 FINAL SAUDI SUITE:
 RESULT: PASS
@@ -78,6 +80,14 @@ INTERMEDIATE FULL SUITE:
 RESULT: FAIL, THEN RESOLVED
 DETAIL: One stale release-metadata expectation after enabling
 jsonschema[format]; corrected before the final passing suite.
+
+SUPERSEDED EXACT-HEAD CI RUN 33220079036:
+RESULT: FAIL, THEN REPAIRED LOCALLY
+DETAIL: Python 3.12 passed every test/gate before the distribution step, which
+failed because the workflow imported setuptools directly from the runner.
+The workflow now uses pinned build==1.3.0 with PEP 517 isolation; the same
+install/build sequence passed in a clean local virtual environment. A new exact
+head CI run is still required.
 
 COMPILE AND DIFF:
 RESULT: PASS

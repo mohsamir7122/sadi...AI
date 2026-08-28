@@ -19,8 +19,8 @@
   "active_draft": {
     "pull_request": 5,
     "url": "https://github.com/mohsamir7122/sadi...AI/pull/5",
-    "implementation_commit": "bcac0faddd92ecf8cc7b3a170b7336919c74a513",
-    "implementation_tree": "59ba77a66d7ddfc4479ea6638366345070c6a99d",
+    "implementation_commit": "dc66ff5ca47014494e828aed09ffa85becdfa6d4",
+    "implementation_tree": "556079fbdcc7c8c7737f073dab9666fb2f123870",
     "exact_head": "pending_after_handoff_metadata_commit",
     "merge_allowed": false
   },
@@ -32,6 +32,7 @@
     "deterministic_corpus": "passed_1280",
     "smoke_and_secret_guards": "passed",
     "source_and_wheel_build": "passed_installed_clis_and_api",
+    "superseded_ci_run_33220079036": "failed_python_3_12_direct_setuptools_import_fixed_with_pep517_build",
     "exact_head_ci": "pending",
     "merge": "not_allowed",
     "saudi_data_foundation": "blocked_external"
