@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "status": "in_progress",
-  "phase": "INTEGRITY_HARDENING_IMPLEMENTATION",
+  "status": "blocked",
+  "phase": "DRAFT_PR_EXACT_HEAD_CI_PENDING",
   "current_task": "SAI-2026-08-28-INTEGRITY-HARDENING",
   "target": {
     "repository": "mohsamir7122/sadi...AI",
@@ -10,26 +10,40 @@
     "current_main_commit": "fcb8f482990d410b6916f60a368d8ba059e1588c",
     "active_branch": "codex/saudi-integrity-hardening-v1"
   },
-  "candidate": {
-    "latest_merged_pr": 3,
-    "latest_merged_head": "da3696d29e2d539bd086f8ab2f6441a14eda0a68",
+  "prior_merged": {
+    "pull_request": 3,
+    "head_commit": "da3696d29e2d539bd086f8ab2f6441a14eda0a68",
     "merge_commit": "fcb8f482990d410b6916f60a368d8ba059e1588c",
     "exact_head_ci_runs": [33111406726]
   },
+  "active_draft": {
+    "pull_request": 5,
+    "url": "https://github.com/mohsamir7122/sadi...AI/pull/5",
+    "implementation_commit": "bcac0faddd92ecf8cc7b3a170b7336919c74a513",
+    "implementation_tree": "59ba77a66d7ddfc4479ea6638366345070c6a99d",
+    "exact_head": "pending_after_handoff_metadata_commit",
+    "merge_allowed": false
+  },
   "gate_status": {
-    "pr3_exact_head_ci": "passed",
-    "post_merge_main_ci": "not_observed",
-    "local_full_suite": "pending",
-    "exact_head_ci": "pending_for_new_draft_pr",
-    "control_and_secret_guards": "pending",
-    "merge": "not_allowed_in_current_task_state",
-    "saudi_data_foundation": "blocked_until_post_merge_main_ci_passes"
+    "local_full_suite": "passed_2177",
+    "local_saudi_suite": "passed_89",
+    "compile_and_diff_check": "passed",
+    "control_check": "passed_merge_authorization_false",
+    "deterministic_corpus": "passed_1280",
+    "smoke_and_secret_guards": "passed",
+    "source_and_wheel_build": "passed_installed_clis_and_api",
+    "exact_head_ci": "pending",
+    "merge": "not_allowed",
+    "saudi_data_foundation": "blocked_external"
   },
   "claim_boundaries": {
+    "evidence_class": "SYNTHETIC_ONLY",
     "live_operational": false,
     "real_backtest_ready": false,
     "prospective_validated": false,
-    "model_training_completed": false
+    "real_or_operational_model_training_completed": false,
+    "synthetic_fixture_fitting_tested": true,
+    "recommendation_or_order_output": false
   },
-  "updated_at_utc": "2026-08-28T00:00:00Z"
+  "updated_at_utc": "2026-08-28T23:15:09Z"
 }

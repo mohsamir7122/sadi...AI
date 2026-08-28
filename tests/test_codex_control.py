@@ -16,7 +16,7 @@ class CodexControlCheckTests(unittest.TestCase):
         report = validate(ROOT)
         self.assertEqual(report["status"], "PASS", report["errors"])
         self.assertEqual(report["task_id"], "SAI-2026-08-28-INTEGRITY-HARDENING")
-        self.assertEqual(report["task_status"], "IN_PROGRESS")
+        self.assertEqual(report["task_status"], "BLOCKED")
         self.assertEqual(
             report["expected_branch"],
             "codex/saudi-integrity-hardening-v1",
@@ -59,7 +59,7 @@ class CodexControlCheckTests(unittest.TestCase):
             self._copy_control_surface(root)
             task = root / "docs/codex/CURRENT_TASK.md"
             text = task.read_text(encoding="utf-8")
-            text = text.replace("STATUS: IN_PROGRESS", "STATUS: COMPLETED", 1)
+            text = text.replace("STATUS: BLOCKED", "STATUS: COMPLETED", 1)
             text = text.replace("EXPECTED_PR_MODE: DRAFT", "EXPECTED_PR_MODE: READY_FOR_REVIEW", 1)
             text = text.replace(
                 "MERGE_ALLOWED: NO",
