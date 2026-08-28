@@ -105,7 +105,7 @@ jobs:
         run: python scripts/secret_guard.py
       - name: Build source/wheel distributions and exercise the wheel
         run: |
-          python -c 'from setuptools.build_meta import build_sdist; build_sdist("dist")'
+          python -m build --sdist --outdir dist
           python -m pip wheel --no-deps --wheel-dir dist .
           installed_venv="$RUNNER_TEMP/kubo-installed-wheel-venv"
           python -m venv "$installed_venv"

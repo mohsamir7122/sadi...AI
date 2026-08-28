@@ -33,7 +33,7 @@ class ReleaseMetadataTests(unittest.TestCase):
         )
         self.assertEqual(
             project_file["project"]["optional-dependencies"]["test"],
-            ["jsonschema[format]==4.25.1"],
+            ["build==1.3.0", "jsonschema[format]==4.25.1"],
         )
         self.assertIn(f"/{__version__}", DEFAULT_USER_AGENT)
 
