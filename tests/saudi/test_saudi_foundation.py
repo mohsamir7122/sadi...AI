@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import argparse
+import copy
+from dataclasses import replace
 from datetime import date, datetime, timedelta, timezone
 import json
 from pathlib import Path
 import unittest
 from zoneinfo import ZoneInfo
 
+import kubo.markets.saudi.calendar as calendar_module
 from kubo.saudi_capabilities.factor9 import FactorDefinition, FactorRegistry, FactorStatus
 from kubo.saudi_capabilities.audit import Claim, AuditStatus, audit_claims
 from kubo.saudi_capabilities.workflows import (
@@ -31,7 +34,7 @@ from kubo.markets.saudi.engine import SaudiResearchEngine
 from kubo.saudi_cli import _parse_date, main as saudi_main
 from contextlib import redirect_stdout
 from io import StringIO
-from jsonschema import Draft202012Validator, FormatChecker
+from jsonschema import Draft202012Validator, FormatChecker, ValidationError
 
 from tests.saudi.helpers import identity_payload, synthetic_calendar_payload
 
@@ -95,9 +98,27 @@ class SaudiFoundationTests(unittest.TestCase):
             ).read_text(encoding="utf-8")
         )
         Draft202012Validator.check_schema(schema)
-        Draft202012Validator(
-            schema, format_checker=FormatChecker()
-        ).validate(synthetic_calendar_payload())
+        checker = FormatChecker()
+        self.assertIn("date-time", checker.checkers)
+        self.assertIn("uri", checker.checkers)
+        validator = Draft202012Validator(schema, format_checker=checker)
+        validator.validate(synthetic_calendar_payload())
+
+        for field, invalid in (
+            ("known_from", "not-a-timestamp"),
+            ("known_from", "2026-02-30T00:00:00+03:00"),
+            ("source_url", "https:// bad-host.example/path"),
+            ("source_url", "https://example.com/%zz"),
+            ("source_url", "https://example.com/has|pipe"),
+            ("source_url", "https://user@example.com/path"),
+            ("source_url", "https://مثال.إختبار/path"),
+            ("source_url", "HTTPS://example.com/path"),
+        ):
+            with self.subTest(field=field, invalid=invalid):
+                payload = synthetic_calendar_payload()
+                payload[field] = invalid
+                with self.assertRaises(ValidationError):
+                    validator.validate(payload)
 
     def test_calendar_schedule_is_revision_bound_immutable_and_point_in_time(self):
         payload = synthetic_calendar_payload()
@@ -110,6 +131,31 @@ class SaudiFoundationTests(unittest.TestCase):
         self.assertEqual(session.phases[0].start.minute, 31)
         with self.assertRaises(TypeError):
             revision.holidays[date(2026, 8, 25)] = "MUTATED"
+        with self.assertRaisesRegex(TypeError, "governed parser"):
+            replace(revision, holiday_closures=())
+        forged = replace(
+            revision,
+            holiday_closures=(),
+            _construction_marker=calendar_module._CALENDAR_REVISION_CONSTRUCTION_MARKER,
+        )
+        with self.assertRaisesRegex(TypeError, "registered parser result"):
+            SaudiTradingCalendar(revision=forged)
+        with self.assertRaisesRegex(TypeError, "registered parser result"):
+            SaudiTradingCalendar(revision=copy.copy(revision))
+
+        tampered = calendar_revision_from_mapping(
+            synthetic_calendar_payload(
+                closed_from=date(2026, 9, 23),
+                resume_on=date(2026, 9, 24),
+            ),
+            known_at=self.known_at,
+        )
+        tampered_calendar = SaudiTradingCalendar(revision=tampered)
+        object.__setattr__(tampered, "holiday_closures", ())
+        with self.assertRaisesRegex(TypeError, "structure changed"):
+            tampered_calendar.session_for(
+                date(2026, 8, 25), known_at=self.known_at
+            )
 
         after_expiry = calendar.session_for(
             date(2026, 8, 26),
@@ -144,7 +190,17 @@ class SaudiFoundationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "ISO date"):
             calendar_revision_from_mapping(payload, known_at=self.known_at)
 
-        for invalid_url in ("https:// bad host", "https:///missing-host", "https://x y/z"):
+        for invalid_url in (
+            "https:// bad host",
+            "https:///missing-host",
+            "https://x y/z",
+            "https://example.com/%zz",
+            "https://example.com\\evil",
+            "https://example.com/has|pipe",
+            "https://user@example.com/path",
+            "https://مثال.إختبار/path",
+            "HTTPS://example.com/path",
+        ):
             with self.subTest(invalid_url=invalid_url):
                 payload = synthetic_calendar_payload()
                 payload["source_url"] = invalid_url

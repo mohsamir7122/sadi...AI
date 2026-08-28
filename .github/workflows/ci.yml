@@ -112,7 +112,7 @@ jobs:
           "$installed_venv/bin/python" -m pip install \
             --disable-pip-version-check \
             dist/*.whl \
-            jsonschema==4.25.1
+            "jsonschema[format]==4.25.1"
           installed_python="$installed_venv/bin/python"
           installed_kubo="$installed_venv/bin/kubo"
           installed_foundation="$installed_venv/bin/kubo-data-foundation"

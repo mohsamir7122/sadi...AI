@@ -1,7 +1,7 @@
 """Effective-dated, fail-closed Saudi Exchange session calendar."""
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import InitVar, dataclass
 from datetime import date, datetime, time, timedelta, timezone
 import hashlib
 import json
@@ -10,6 +10,7 @@ import re
 from types import MappingProxyType
 from typing import Any, Mapping
 from urllib.parse import urlsplit
+import weakref
 from zoneinfo import ZoneInfo
 
 from ...foundation_io import safe_regular_file, strict_json_object
@@ -51,12 +52,22 @@ _PHASE_TEMPLATE = (
 )
 _ISO_DATE_RE = re.compile(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
 _WALL_TIME_RE = re.compile(r"^[0-9]{2}:[0-9]{2}:[0-9]{2}$")
+_RFC3339_TIMESTAMP_RE = re.compile(
+    r"^[0-9]{4}-[0-9]{2}-[0-9]{2}T"
+    r"(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]"
+    r"(?:\.[0-9]{1,6})?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])$"
+)
+_RFC3986_ASCII_RE = re.compile(r"^[A-Za-z0-9._~:/?#\[\]@!$&'()*+,;=%-]+$")
+_CALENDAR_REVISION_CONSTRUCTION_MARKER = object()
 
 
 def _aware(value: str, field: str) -> datetime:
-    if not isinstance(value, str):
-        raise ValueError(f"{field} must be an ISO timestamp string")
-    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if not isinstance(value, str) or not _RFC3339_TIMESTAMP_RE.fullmatch(value):
+        raise ValueError(f"{field} must be an RFC 3339 timestamp string")
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise ValueError(f"{field} must be an RFC 3339 timestamp string") from exc
     if parsed.tzinfo is None or parsed.utcoffset() is None:
         raise ValueError(f"{field} must be timezone-aware")
     return parsed
@@ -100,7 +111,12 @@ def _calendar_date(value: object, field: str) -> date:
 
 def _https_url(value: object, field: str) -> str:
     text = _required_text(value, field)
-    if any(character.isspace() for character in text):
+    if not text.startswith("https://") or any(
+        character.isspace() or ord(character) < 0x20 or ord(character) == 0x7F
+        for character in text
+    ) or not _RFC3986_ASCII_RE.fullmatch(text) or re.search(
+        r"%(?![0-9A-Fa-f]{2})", text
+    ):
         raise ValueError(f"{field} must be a valid HTTPS URL")
     try:
         parsed = urlsplit(text)
@@ -113,6 +129,8 @@ def _https_url(value: object, field: str) -> str:
         or not parsed.hostname
         or parsed.username is not None
         or parsed.password is not None
+        or "\\" in parsed.netloc
+        or "\\" in parsed.path
     ):
         raise ValueError(f"{field} must be a valid HTTPS URL")
     return text
@@ -206,8 +224,19 @@ class SaudiCalendarRevision:
     holiday_closures: tuple[SaudiHolidayClosure, ...]
     holidays: Mapping[date, str]
     content_sha256: str
+    _construction_marker: InitVar[object] = None
+
+    def __post_init__(self, _construction_marker: object) -> None:
+        if (
+            type(self) is not SaudiCalendarRevision
+            or _construction_marker is not _CALENDAR_REVISION_CONSTRUCTION_MARKER
+        ):
+            raise TypeError(
+                "SaudiCalendarRevision must be created by the governed parser"
+            )
 
     def known_at(self, instant: datetime) -> bool:
+        _require_registered_revision(self)
         if (
             not isinstance(instant, datetime)
             or instant.tzinfo is None
@@ -219,10 +248,121 @@ class SaudiCalendarRevision:
         )
 
     def closure_on(self, session_date: date) -> SaudiHolidayClosure | None:
+        _require_registered_revision(self)
         for closure in self.holiday_closures:
             if closure.contains(session_date):
                 return closure
         return None
+
+
+_REGISTERED_CALENDAR_REVISIONS: dict[
+    int, tuple[weakref.ReferenceType[SaudiCalendarRevision], tuple[object, ...]]
+] = {}
+
+
+def _revision_snapshot(revision: SaudiCalendarRevision) -> tuple[object, ...]:
+    if (
+        type(revision) is not SaudiCalendarRevision
+        or type(revision.revision_id) is not str
+        or type(revision.coverage_from) is not date
+        or type(revision.coverage_through) is not date
+        or type(revision.known_from) is not datetime
+        or (revision.known_to is not None and type(revision.known_to) is not datetime)
+        or type(revision.source_id) is not str
+        or type(revision.source_url) is not str
+        or type(revision.boundary_uncertainty_seconds) is not int
+        or type(revision.evidence_class) is not str
+        or type(revision.schedule) is not SaudiSessionSchedule
+        or type(revision.holiday_closures) is not tuple
+        or type(revision.holidays) is not MappingProxyType
+        or type(revision.content_sha256) is not str
+    ):
+        raise TypeError("calendar revision materialized structure is invalid")
+    schedule = revision.schedule
+    if (
+        type(schedule.effective_from) is not date
+        or (
+            schedule.effective_through is not None
+            and type(schedule.effective_through) is not date
+        )
+        or type(schedule.phases) is not tuple
+    ):
+        raise TypeError("calendar revision schedule structure is invalid")
+    phases: list[tuple[object, ...]] = []
+    for phase in schedule.phases:
+        if (
+            type(phase) is not SaudiSessionPhaseTemplate
+            or type(phase.name) is not str
+            or type(phase.start) is not time
+            or type(phase.end) is not time
+            or type(phase.executable) is not bool
+        ):
+            raise TypeError("calendar revision phase structure is invalid")
+        phases.append((phase.name, phase.start, phase.end, phase.executable))
+    closures: list[tuple[object, ...]] = []
+    for closure in revision.holiday_closures:
+        if (
+            type(closure) is not SaudiHolidayClosure
+            or type(closure.closed_from) is not date
+            or type(closure.closed_through) is not date
+            or type(closure.resume_on) is not date
+            or type(closure.reason) is not str
+        ):
+            raise TypeError("calendar revision holiday structure is invalid")
+        closures.append(
+            (
+                closure.closed_from,
+                closure.closed_through,
+                closure.resume_on,
+                closure.reason,
+            )
+        )
+    holidays: list[tuple[date, str]] = []
+    for session_date, reason in revision.holidays.items():
+        if type(session_date) is not date or type(reason) is not str:
+            raise TypeError("calendar revision holiday index is invalid")
+        holidays.append((session_date, reason))
+    return (
+        revision.revision_id,
+        revision.coverage_from,
+        revision.coverage_through,
+        revision.known_from,
+        revision.known_to,
+        revision.source_id,
+        revision.source_url,
+        revision.boundary_uncertainty_seconds,
+        revision.evidence_class,
+        schedule.effective_from,
+        schedule.effective_through,
+        tuple(phases),
+        tuple(closures),
+        tuple(sorted(holidays)),
+        revision.content_sha256,
+    )
+
+
+def _register_revision(revision: SaudiCalendarRevision) -> None:
+    key = id(revision)
+
+    def discard(reference: weakref.ReferenceType[SaudiCalendarRevision]) -> None:
+        registered = _REGISTERED_CALENDAR_REVISIONS.get(key)
+        if registered is not None and registered[0] is reference:
+            _REGISTERED_CALENDAR_REVISIONS.pop(key, None)
+
+    reference = weakref.ref(revision, discard)
+    _REGISTERED_CALENDAR_REVISIONS[key] = (reference, _revision_snapshot(revision))
+
+
+def _require_registered_revision(revision: SaudiCalendarRevision) -> None:
+    registered = _REGISTERED_CALENDAR_REVISIONS.get(id(revision))
+    if registered is None or registered[0]() is not revision:
+        raise TypeError("calendar revision is not a registered parser result")
+    try:
+        current = _revision_snapshot(revision)
+    except (AttributeError, TypeError, ValueError) as exc:
+        raise TypeError("calendar revision materialized structure changed") from exc
+    if current != registered[1]:
+        raise TypeError("calendar revision materialized structure changed")
 
 
 def calendar_revision_from_mapping(
@@ -378,7 +518,7 @@ def calendar_revision_from_mapping(
         sort_keys=True,
         separators=(",", ":"),
     ).encode("utf-8")
-    return SaudiCalendarRevision(
+    revision = SaudiCalendarRevision(
         revision_id=revision_id,
         coverage_from=coverage_from,
         coverage_through=coverage_through,
@@ -394,7 +534,10 @@ def calendar_revision_from_mapping(
         ),
         holidays=MappingProxyType(dict(holidays)),
         content_sha256=hashlib.sha256(canonical).hexdigest(),
+        _construction_marker=_CALENDAR_REVISION_CONSTRUCTION_MARKER,
     )
+    _register_revision(revision)
+    return revision
 
 
 def calendar_revision_from_bytes(
@@ -419,6 +562,12 @@ class SaudiTradingCalendar:
     """Calendar that treats missing official coverage as unknown, never open."""
 
     def __init__(self, *, revision: SaudiCalendarRevision | None = None):
+        if revision is not None and type(revision) is not SaudiCalendarRevision:
+            raise TypeError(
+                "revision must be an exact governed SaudiCalendarRevision"
+            )
+        if revision is not None:
+            _require_registered_revision(revision)
         self.revision = revision
         self._tz = ZoneInfo(RIYADH_TZ)
 
@@ -440,6 +589,8 @@ class SaudiTradingCalendar:
         ):
             raise ValueError("calendar known_at must be timezone-aware")
         revision = self.revision
+        if revision is not None:
+            _require_registered_revision(revision)
         if revision is not None and not revision.known_at(known_at):
             return SaudiSession(
                 session_date=session_date,

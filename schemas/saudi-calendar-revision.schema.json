@@ -18,10 +18,27 @@
     "timezone": {"const": "Asia/Riyadh"},
     "coverage_from": {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
     "coverage_through": {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
-    "known_from": {"type": "string", "format": "date-time"},
-    "known_to": {"oneOf": [{"type": "null"}, {"type": "string", "format": "date-time"}]},
+    "known_from": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:\\.[0-9]{1,6})?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])$"
+    },
+    "known_to": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:\\.[0-9]{1,6})?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])$"
+        }
+      ]
+    },
     "source_id": {"type": "string", "minLength": 1},
-    "source_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+    "source_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://(?![^/?#]*@)[A-Za-z0-9._~:/?#\\[\\]!$&'()*+,;=%-]+$"
+    },
     "boundary_uncertainty_seconds": {"type": "integer", "minimum": 0, "maximum": 300},
     "evidence_class": {"enum": ["SYNTHETIC_ONLY", "RECORDED_AUTHORIZED_FIXTURE"]},
     "schedule": {
