@@ -1,33 +1,50 @@
 {
   "schema_version": 1,
-  "status": "completed",
-  "phase": "P7_SAUDI_PR2_REPAIR_MERGED",
-  "current_task": "SAI-2026-08-26-PR2-REPAIR",
+  "status": "blocked",
+  "phase": "DRAFT_PR_EXACT_HEAD_CI_PENDING",
+  "current_task": "SAI-2026-08-28-INTEGRITY-HARDENING",
   "target": {
     "repository": "mohsamir7122/sadi...AI",
     "observed_visibility": "public",
     "base_branch": "main",
-    "main_merge_commit": "24735a34084dc42f285927560723b36b80818c59",
-    "post_merge_status_commit": "78fd23c"
+    "current_main_commit": "fcb8f482990d410b6916f60a368d8ba059e1588c",
+    "active_branch": "codex/saudi-integrity-hardening-v1"
   },
-  "candidate": {
-    "pr": 2,
-    "candidate_sha": "f1040c55bfe77bb9324cb6ff9cf88c1403dfc309",
-    "merge_commit": "24735a34084dc42f285927560723b36b80818c59",
-    "exact_head_ci_runs": [32989063479, 32990157162]
+  "prior_merged": {
+    "pull_request": 3,
+    "head_commit": "da3696d29e2d539bd086f8ab2f6441a14eda0a68",
+    "merge_commit": "fcb8f482990d410b6916f60a368d8ba059e1588c",
+    "exact_head_ci_runs": [33111406726]
+  },
+  "active_draft": {
+    "pull_request": 5,
+    "url": "https://github.com/mohsamir7122/sadi...AI/pull/5",
+    "implementation_commit": "dc66ff5ca47014494e828aed09ffa85becdfa6d4",
+    "implementation_tree": "556079fbdcc7c8c7737f073dab9666fb2f123870",
+    "exact_head": "pending_after_handoff_metadata_commit",
+    "merge_allowed": false
   },
   "gate_status": {
-    "root_marker_policy_repair": "passed",
-    "local_full_suite": "passed_2103",
-    "exact_head_ci": "passed_python_3.11_to_3.14",
-    "control_and_secret_guards": "passed",
-    "merge": "completed_under_conditional_authority"
+    "local_full_suite": "passed_2177",
+    "local_saudi_suite": "passed_89",
+    "compile_and_diff_check": "passed",
+    "control_check": "passed_merge_authorization_false",
+    "deterministic_corpus": "passed_1280",
+    "smoke_and_secret_guards": "passed",
+    "source_and_wheel_build": "passed_installed_clis_and_api",
+    "superseded_ci_run_33220079036": "failed_python_3_12_direct_setuptools_import_fixed_with_pep517_build",
+    "exact_head_ci": "pending",
+    "merge": "not_allowed",
+    "saudi_data_foundation": "blocked_external"
   },
   "claim_boundaries": {
+    "evidence_class": "SYNTHETIC_ONLY",
     "live_operational": false,
     "real_backtest_ready": false,
     "prospective_validated": false,
-    "model_training_completed": false
+    "real_or_operational_model_training_completed": false,
+    "synthetic_fixture_fitting_tested": true,
+    "recommendation_or_order_output": false
   },
-  "updated_at_utc": "2026-08-26T17:00:50Z"
+  "updated_at_utc": "2026-08-28T23:15:09Z"
 }

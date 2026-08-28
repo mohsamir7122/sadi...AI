@@ -20,14 +20,32 @@ class SaudiResearchEngine:
         self.benchmarks = benchmarks or SaudiBenchmarkRegistry()
 
     def snapshot(self, *, as_of: date, known_at: datetime, segment: str = MAIN_MARKET, benchmark_code: str = "TASI") -> dict[str, Any]:
-        session = self.calendar.session_for(as_of, segment=segment)
-        members = self.security_master.members_on(as_of=as_of, known_at=known_at, segment=segment)
+        if segment != MAIN_MARKET:
+            return {
+                "market": SAUDI_MARKET.market_id,
+                "currency": SAUDI_MARKET.currency,
+                "timezone": SAUDI_MARKET.timezone,
+                "segment": segment,
+                "as_of": as_of.isoformat(),
+                "known_at": known_at.isoformat(),
+                "status": "ABSTAIN",
+                "blocked_reasons": ["UNSUPPORTED_PRODUCT_SCOPE"],
+            }
+        session = self.calendar.session_for(
+            as_of,
+            known_at=known_at,
+            segment=segment,
+        )
+        members = self.security_master.membership_on(as_of=as_of, known_at=known_at, segment=segment)
+        selectable = self.security_master.selectable_on(as_of=as_of, known_at=known_at, segment=segment)
         benchmark = self.benchmarks.get(benchmark_code, as_of=as_of)
         blocked: list[str] = []
         if not session.is_trading_day:
-            blocked.append("NON_TRADING_SESSION")
-        if not members:
+            blocked.append(session.closed_reason or "NON_TRADING_SESSION")
+        if not selectable:
             blocked.append("EMPTY_OR_UNVERIFIED_UNIVERSE")
+        if benchmark.scope not in {"BROAD_MARKET", "LARGE_CAP"}:
+            blocked.append("BENCHMARK_SCOPE_MISMATCH")
         return {
             "market": SAUDI_MARKET.market_id,
             "currency": SAUDI_MARKET.currency,
@@ -35,9 +53,15 @@ class SaudiResearchEngine:
             "segment": segment,
             "as_of": as_of.isoformat(),
             "known_at": known_at.isoformat(),
-            "session": {"is_trading_day": session.is_trading_day, "closed_reason": session.closed_reason},
+            "session": {
+                "is_trading_day": session.is_trading_day,
+                "closed_reason": session.closed_reason,
+                "coverage_known": session.coverage_known,
+                "calendar_revision_id": session.calendar_revision_id,
+            },
             "benchmark": {"code": benchmark.code, "scope": benchmark.scope},
-            "universe_size": len(members),
+            "membership_denominator_size": len(members),
+            "universe_size": len(selectable),
             "source_states": {source.source_id: source.state for source in SAUDI_SOURCES},
             "status": "ABSTAIN" if blocked else "READY_FOR_EVIDENCE",
             "blocked_reasons": blocked,

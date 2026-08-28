@@ -7,7 +7,7 @@
   "required": [
     "event_id", "official_code", "prediction_at", "event_at", "evidence_known_at",
     "cohort", "event_type", "source_id", "source_role", "rights_status", "factors",
-    "outcomes", "denominator_complete", "corporate_actions_reconciled", "identity_verified"
+    "outcomes"
   ],
   "properties": {
     "event_id": {"type": "string", "minLength": 1},
@@ -19,7 +19,7 @@
     "event_type": {"enum": ["EARNINGS", "GUIDANCE", "CORPORATE_ACTION", "LEGAL_REGULATORY", "SUSPENSION_STATUS", "GOVERNANCE", "MERGER_ACQUISITION", "MACRO_SECTOR", "PRICE_VOLUME_DISLOCATION"]},
     "source_id": {"type": "string", "minLength": 1},
     "source_role": {"enum": ["OFFICIAL_VERIFICATION", "REGULATORY_EVIDENCE", "ISSUER_DISCLOSURE", "LICENSED_MARKET_DATA"]},
-    "rights_status": {"enum": ["PUBLIC_RESEARCH_ALLOWED", "LICENSED_RESEARCH_ALLOWED"]},
+    "rights_status": {"enum": ["PUBLIC_RESEARCH_ALLOWED", "LICENSED_MODEL_USE"]},
     "factors": {
       "type": "array",
       "minItems": 1,
@@ -32,7 +32,7 @@
           "value": {"type": "number"},
           "known_at": {"type": "string", "format": "date-time"},
           "source_id": {"type": "string", "minLength": 1},
-          "rights_status": {"enum": ["PUBLIC_RESEARCH_ALLOWED", "LICENSED_RESEARCH_ALLOWED"]}
+          "rights_status": {"enum": ["PUBLIC_RESEARCH_ALLOWED", "LICENSED_MODEL_USE"]}
         }
       }
     },
@@ -51,9 +51,6 @@
           "price_basis": {"const": "CORPORATE_ACTION_ADJUSTED_TOTAL_RETURN"}
         }
       }
-    },
-    "denominator_complete": {"const": true},
-    "corporate_actions_reconciled": {"const": true},
-    "identity_verified": {"const": true}
+    }
   }
 }

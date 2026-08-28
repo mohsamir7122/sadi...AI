@@ -6,10 +6,11 @@
   "timezone": "Asia/Riyadh",
   "scheduled_local_time": "22:00",
   "lookback_years": 10,
-  "minimum_daily_cohorts": {
+  "minimum_events_per_run": {
     "PRIMARY": 50,
     "PROBE": 300
   },
+  "coverage_tolerance_days": 31,
   "temporal_split": {
     "training": 0.6,
     "validation": 0.2,
@@ -34,7 +35,9 @@
     "SOURCE_AUTHORITY_AND_RIGHTS",
     "COMPLETE_DENOMINATOR",
     "CORPORATE_ACTION_RECONCILIATION",
-    "CHRONOLOGICAL_SPLIT",
+    "GLOBAL_CAUSAL_SPLIT",
+    "LABEL_AVAILABILITY_PURGE",
+    "TEN_YEAR_WINDOW_COVERAGE",
     "SEALED_FINAL_HOLDOUT"
   ],
   "failure_policy": "STOP_WITHOUT_MODEL_UPDATE",

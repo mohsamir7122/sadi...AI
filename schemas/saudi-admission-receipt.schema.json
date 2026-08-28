@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mohsamir7122/sadi...AI/schemas/saudi-admission-receipt.schema.json",
+  "title": "Synthetic-trust Ed25519 Saudi runtime artifact admission",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "audience",
+    "trust_class",
+    "purpose",
+    "receipt_id",
+    "issued_at",
+    "expires_at",
+    "execution_contract",
+    "artifacts",
+    "assertions",
+    "authentication"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0"},
+    "audience": {"const": "sadi-ai-runtime-admission"},
+    "trust_class": {"const": "SYNTHETIC_ONLY"},
+    "purpose": {
+      "enum": ["NIGHTLY_MODEL_USE", "POST_OPEN_MODEL_USE", "HOLDOUT_SCORE"]
+    },
+    "receipt_id": {"$ref": "#/$defs/identifier"},
+    "issued_at": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "execution_contract": {"type": "object"},
+    "artifacts": {"type": "object"},
+    "assertions": {"type": "object"},
+    "authentication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "key_id", "signature"],
+      "properties": {
+        "algorithm": {"const": "Ed25519"},
+        "key_id": {"const": "synthetic-ed25519-admission-v1"},
+        "signature": {"type": "string", "pattern": "^[0-9a-f]{128}$"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"purpose": {"const": "NIGHTLY_MODEL_USE"}}},
+      "then": {
+        "properties": {
+          "execution_contract": {"$ref": "#/$defs/nightlyExecution"},
+          "artifacts": {"$ref": "#/$defs/nightlyArtifacts"},
+          "assertions": {"$ref": "#/$defs/nightlyAssertions"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"purpose": {"const": "POST_OPEN_MODEL_USE"}}},
+      "then": {
+        "properties": {
+          "execution_contract": {"$ref": "#/$defs/postOpenExecution"},
+          "artifacts": {"$ref": "#/$defs/postOpenArtifacts"},
+          "assertions": {"$ref": "#/$defs/postOpenAssertions"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"purpose": {"const": "HOLDOUT_SCORE"}}},
+      "then": {
+        "properties": {
+          "execution_contract": {"$ref": "#/$defs/holdoutExecution"},
+          "artifacts": {"$ref": "#/$defs/holdoutArtifacts"},
+          "assertions": {"$ref": "#/$defs/holdoutAssertions"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,254}$"
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256", "size_bytes"],
+      "properties": {
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "nightlyExecution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_id",
+        "run_at",
+        "lookback_years",
+        "minimum_primary",
+        "minimum_probe",
+        "coverage_tolerance_days",
+        "maturity_buffer_days",
+        "maximum_coverage_gap_days"
+      ],
+      "properties": {
+        "run_id": {"$ref": "#/$defs/identifier"},
+        "run_at": {"type": "string", "format": "date-time"},
+        "lookback_years": {"type": "integer", "minimum": 1},
+        "minimum_primary": {"type": "integer", "minimum": 1},
+        "minimum_probe": {"type": "integer", "minimum": 1},
+        "coverage_tolerance_days": {"type": "integer", "minimum": 0},
+        "maturity_buffer_days": {"type": "integer", "minimum": 1},
+        "maximum_coverage_gap_days": {"type": "integer", "minimum": 1}
+      }
+    },
+    "postOpenExecution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scan_at",
+        "maximum_market_age_minutes",
+        "minimum_turnover_sar",
+        "maximum_candidates_per_horizon"
+      ],
+      "properties": {
+        "scan_at": {"type": "string", "format": "date-time"},
+        "maximum_market_age_minutes": {"type": "integer", "minimum": 1, "maximum": 15},
+        "minimum_turnover_sar": {"type": "number", "minimum": 0},
+        "maximum_candidates_per_horizon": {"type": "integer", "minimum": 1, "maximum": 25}
+      }
+    },
+    "holdoutExecution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scored_at", "run_id"],
+      "properties": {
+        "scored_at": {"type": "string", "format": "date-time"},
+        "run_id": {"$ref": "#/$defs/identifier"}
+      }
+    },
+    "nightlyArtifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input",
+        "identity",
+        "calendar",
+        "denominator_report",
+        "corporate_actions_report"
+      ],
+      "properties": {
+        "input": {"$ref": "#/$defs/artifact"},
+        "identity": {"$ref": "#/$defs/artifact"},
+        "calendar": {"$ref": "#/$defs/artifact"},
+        "denominator_report": {"$ref": "#/$defs/artifact"},
+        "corporate_actions_report": {"$ref": "#/$defs/artifact"}
+      }
+    },
+    "postOpenArtifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input", "identity", "calendar", "weights"],
+      "properties": {
+        "input": {"$ref": "#/$defs/artifact"},
+        "identity": {"$ref": "#/$defs/artifact"},
+        "calendar": {"$ref": "#/$defs/artifact"},
+        "weights": {"$ref": "#/$defs/artifact"}
+      }
+    },
+    "holdoutArtifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sealed_predictions", "outcome_vault", "run_report"],
+      "properties": {
+        "sealed_predictions": {"$ref": "#/$defs/artifact"},
+        "outcome_vault": {"$ref": "#/$defs/artifact"},
+        "run_report": {"$ref": "#/$defs/artifact"}
+      }
+    },
+    "modelUseAssertions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity_point_in_time_verified",
+        "model_use_rights_verified",
+        "source_authority_verified",
+        "licensed_entitlements_verified_or_not_applicable",
+        "denominator_complete",
+        "corporate_actions_reconciled"
+      ],
+      "properties": {
+        "identity_point_in_time_verified": {"const": true},
+        "model_use_rights_verified": {"const": true},
+        "source_authority_verified": {"const": true},
+        "licensed_entitlements_verified_or_not_applicable": {"const": true},
+        "denominator_complete": {"type": ["boolean", "null"]},
+        "corporate_actions_reconciled": {"type": ["boolean", "null"]}
+      }
+    },
+    "nightlyAssertions": {
+      "allOf": [
+        {"$ref": "#/$defs/modelUseAssertions"},
+        {
+          "properties": {
+            "denominator_complete": {"const": true},
+            "corporate_actions_reconciled": {"const": true}
+          }
+        }
+      ]
+    },
+    "postOpenAssertions": {
+      "allOf": [
+        {"$ref": "#/$defs/modelUseAssertions"},
+        {
+          "properties": {
+            "denominator_complete": {"const": true},
+            "corporate_actions_reconciled": {"const": null}
+          }
+        }
+      ]
+    },
+    "holdoutAssertions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packet_sealed", "vault_sealed", "run_binding_verified"],
+      "properties": {
+        "packet_sealed": {"const": true},
+        "vault_sealed": {"const": true},
+        "run_binding_verified": {"const": true}
+      }
+    }
+  }
+}

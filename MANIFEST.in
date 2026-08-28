@@ -1,0 +1,6 @@
+include AGENTS.md CODEX_START_HERE.md LICENSE README.md pyproject.toml
+recursive-include config *.json
+recursive-include docs *.csv *.json *.md
+recursive-include schemas *.json
+recursive-include scripts *.py
+recursive-include tests *.html *.json *.jsonl *.md *.py

@@ -119,13 +119,23 @@ def validate(root: Path) -> dict[str, Any]:
                 errors.append(f"CURRENT_TASK_UNSAFE_PERMISSION:{key}")
         decisions_path = root / "docs/codex/USER_DECISIONS.md"
         decisions_text = _read(decisions_path) if decisions_path.is_file() else ""
-        merge_authorized = (
-            metadata.get("MERGE_ALLOWED") == "NO"
-            and metadata.get("EXPECTED_PR_MODE") == "DRAFT"
-            and "DECISION_ID: SAI-2026-08-26-MERGE-COND-001" in decisions_text
+        conditional_decision_recorded = (
+            "DECISION_ID: SAI-2026-08-26-MERGE-COND-001" in decisions_text
             and "This authority is conditional, not absolute." in decisions_text
         )
-        if not merge_authorized:
+        draft_state = (
+            metadata.get("MERGE_ALLOWED") == "NO"
+            and metadata.get("EXPECTED_PR_MODE") == "DRAFT"
+        )
+        gated_merge_state = (
+            metadata.get("MERGE_ALLOWED") == "YES_AFTER_GATES_PER_SAI-DEC-006"
+            and metadata.get("EXPECTED_PR_MODE") == "READY_FOR_REVIEW"
+            and metadata.get("STATUS") == "COMPLETED"
+        )
+        merge_policy_valid = conditional_decision_recorded and (
+            draft_state or gated_merge_state
+        )
+        if not merge_policy_valid:
             errors.append("CURRENT_TASK_MERGE_AUTHORITY_MISSING_OR_MISMATCHED")
         backtest_authorized = metadata.get("REAL_BACKTEST_ALLOWED") == "NO"
         if not backtest_authorized:
@@ -192,9 +202,8 @@ def validate(root: Path) -> dict[str, Any]:
         "warnings": sorted(set(warnings)),
         "claim_boundaries": {
             "control_check_authorizes_merge": bool(
-                metadata.get("MERGE_ALLOWED")
-                == "YES_AFTER_GATES_PER_SAI-DEC-006"
-                and not any("MERGE_AUTHORITY" in error for error in errors)
+                gated_merge_state
+                and not errors
             ),
             "control_check_authorizes_deletion": False,
             "control_check_proves_market_data": False,

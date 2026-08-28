@@ -79,6 +79,11 @@ exact-head CI
 
 A skipped test requires an exact reason, impact, and recovery action.
 
+For this gate, `exact-head CI` means the checked-out commit SHA equals the
+Draft PR candidate-head SHA and the configured jobs pass for that same SHA.
+A synthetic merge ref, base-branch run, or run on an earlier candidate does
+not satisfy the gate.
+
 ## Gate 13 — Draft PR and handoff
 
 Pass only when the task branch is pushed without force, a Draft PR targets the correct branch, the PR body lists dependencies/tests/claims/non-claims, the capability matrix and status are updated, and the handoff is complete. No merge or auto-merge occurs.

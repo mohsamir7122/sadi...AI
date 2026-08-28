@@ -1,33 +1,33 @@
 capability_id,source_owner,capability,status,target_owner,acceptance_evidence,blocker
-KUBO-001,ku-bo,Package and CLI foundation,PARTIAL,sadi...AI,"Imported KU-BO package and pyproject; bundled environment lacks pytest for full baseline",,
-KUBO-002,ku-bo,Strict Schemas and JSON contracts,unreviewed,,,
+KUBO-001,ku-bo,Package and CLI foundation,PARTIAL,sadi...AI,"Imported KU-BO package and packaging foundation; the Saudi integrity slice extends the governed CLI surface","Final exact-head CI and complete donor-parity acceptance remain pending"
+KUBO-002,ku-bo,Strict Schemas and JSON contracts,PARTIAL,sadi...AI,"Closed Saudi admission, calendar-revision, denominator, Corporate Actions, market-snapshot, nightly-event, post-open-input, and post-open-report contracts have runtime and adversarial tests","This is a bounded synthetic integrity slice; broader KU-BO schema parity and official real fixtures remain unproven"
 KUBO-003,ku-bo,Evidence and provenance,unreviewed,,,
 KUBO-004,ku-bo,Source network,unreviewed,,,
-KUBO-005,ku-bo,Effective-dated identity,PARTIAL,sadi...AI,"Saudi official-code/ISIN and Point-in-Time identity tests pass",,
-KUBO-006,ku-bo,Market calendar and status,PARTIAL,sadi...AI,"Saudi Sunday-Thursday calendar and explicit holiday overrides implemented",,
-KUBO-007,ku-bo,Prices and benchmarks,PARTIAL,sadi...AI,"Saudi benchmark registry implemented; price ingestion still pending",,
+KUBO-005,ku-bo,Effective-dated identity,PARTIAL,sadi...AI,"Strict bitemporal code/checksum-valid-ISIN resolution, half-open knowledge intervals, overlap rejection, full membership serialization, and selectable-universe tests pass","No admitted official real Saudi identity fixture or production source adapter is included"
+KUBO-006,ku-bo,Market calendar and status,PARTIAL,sadi...AI,"Effective-dated calendar revisions require revision-level event-time known_at, exact phases, bounded coverage, and immutable holiday/resumption records","Synthetic fixtures only; no historical revision ledger/per-session availability history or official session inventory reconciliation exists"
+KUBO-007,ku-bo,Prices and benchmarks,PARTIAL,sadi...AI,"Saudi benchmark registry implemented; price ingestion still pending",
 KUBO-008,ku-bo,Corporate Actions,unreviewed,,,
 KUBO-009,ku-bo,Research workflow,unreviewed,,,
 KUBO-010,ku-bo,Forecast and outcome ledgers,unreviewed,,,
 KUBO-011,ku-bo,Evaluation and replay,unreviewed,,,
-KUBO-012,ku-bo,Runtime trust,unreviewed,,,
+KUBO-012,ku-bo,Runtime trust,PARTIAL,sadi...AI,"Purpose-scoped Ed25519 receipts bind exact artifact bytes and execution contracts; runtime consumers require exact verifier-registered object identities","The sole bundled trust key is SYNTHETIC_ONLY, its test issuer seed is public, receipt consumption/replay is not tracked, and no production issuer or authorization exists"
 KUBO-013,ku-bo,Data foundation,unreviewed,,,
 KUBO-014,ku-bo,Historical context planning,unreviewed,,,
-KUBO-015,ku-bo,Packaging CI and adversarial tests,PARTIAL,sadi...AI,"Saudi unittest slice passes; pytest dependency and full suite pending",,
+KUBO-015,ku-bo,Packaging CI and adversarial tests,PARTIAL,sadi...AI,"Saudi integrity tests cover strict parsing, receipt tampering, artifact binding, Point-in-Time identity/calendar behavior, temporal purge/coverage, schemas, and synthetic claim boundaries","Final exact-head CI and production-fixture validation remain blocked/pending"
 KUBO-016,ku-bo,Active PR capabilities,unreviewed,,,
 AIM-001,AI-Mincy,Market-regime analysis,unreviewed,,,
 AIM-002,AI-Mincy,Press intelligence and catalyst radar,unreviewed,,,
 AIM-003,AI-Mincy,Telegram and community intelligence,unreviewed,,,
-AIM-004,AI-Mincy,Backtest and missed-opportunity audit,PARTIAL,sadi...AI,"Fail-closed claim audit implemented and tested",,
-AIM-005,AI-Mincy,Factor 9 data foundation,PARTIAL,sadi...AI,"Rights and Point-in-Time admission contract implemented and tested",,
+AIM-004,AI-Mincy,Backtest and missed-opportunity audit,PARTIAL,sadi...AI,"Fail-closed claim audit plus strict denominator and Corporate Actions evidence reports are implemented and tested","No real backtest result or authenticated production report is claimed; holdout scoring remains synthetic-only"
+AIM-005,AI-Mincy,Factor 9 data foundation,PARTIAL,sadi...AI,"One strict rights contract requires LICENSED_MODEL_USE for licensed fitting, binds Point-in-Time Ed25519 admission, and forbids silent missing-factor zero-imputation","Runtime paths do not yet resolve FactorRegistry membership, factor-specific nightly freshness, or registry lineage; no legal production entitlement, real dataset, issuer, operational trained model, or production permission is claimed"
 AIM-006,AI-Mincy,Official exchange collection architecture,unreviewed,,,
 AIM-007,AI-Mincy,Investing historical user-export workflow,unreviewed,,,
-AIM-008,AI-Mincy,Portfolio state validation,PARTIAL,sadi...AI,"SAR structural validation implemented; broker integration excluded",,
-AIM-009,AI-Mincy,Intraday and delayed monitoring,BLOCKED_EXTERNAL,sadi...AI,"Requires an approved Saudi data access contract and freshness policy",,
-AIM-010,AI-Mincy,Resumable market pipelines,PARTIAL,sadi...AI,"Append-only checkpoint contract implemented",,
-AIM-011,AI-Mincy,Training dataset and walk-forward laboratory,unreviewed,,,
+AIM-008,AI-Mincy,Portfolio state validation,PARTIAL,sadi...AI,"SAR structural validation is implemented and tested; broker integration excluded",
+AIM-009,AI-Mincy,Intraday and delayed monitoring,BLOCKED_EXTERNAL,sadi...AI,"Requires an approved Saudi data access contract and freshness policy",
+AIM-010,AI-Mincy,Resumable market pipelines,PARTIAL,sadi...AI,"Append-only monotonic checkpoint behavior is implemented and tested","Persistence and collector adapters remain pending"
+AIM-011,AI-Mincy,Training dataset and walk-forward laboratory,PARTIAL,sadi...AI,"Global chronological 60/20/20 splitting, causal label-and-event-evidence purge, cohort coverage/gap checks, sealed prediction packets, and outcome-vault validation are tested","Synthetic fixtures only; scoring does not replay the original nightly admission chain, and no real training result, independent custodian, production issuer, or authenticated report exists"
 AIM-012,AI-Mincy,Research and forecast orchestration,unreviewed,,,
-AIM-013,AI-Mincy,Full-market opportunity scan,PARTIAL,sadi...AI,"Main Market official-code/context-only scanner implemented; no full-market claim",,
+AIM-013,AI-Mincy,Full-market opportunity scan,PARTIAL,sadi...AI,"Post-open research scan uses Point-in-Time Main Market membership/selectability, exact admission binding, freshness/liquidity gates, and synthetic-status propagation","No admitted official full-market fixture, real-time feed, production issuer, recommendation, or execution capability"
 AIM-014,AI-Mincy,Momentum-pattern study,unreviewed,,,
 AIM-015,AI-Mincy,Shared source governance and validators,unreviewed,,,
 AIM-016,AI-Mincy,Skills catalog and routing,unreviewed,,,

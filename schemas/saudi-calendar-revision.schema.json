@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mohsamir7122/sadi...AI/schemas/saudi-calendar-revision.schema.json",
+  "title": "Effective-dated Saudi Main Market calendar revision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "revision_id", "market", "segment", "timezone",
+    "coverage_from", "coverage_through", "known_from", "known_to",
+    "source_id", "source_url", "boundary_uncertainty_seconds",
+    "evidence_class", "schedule", "holidays"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "revision_id": {"type": "string", "minLength": 1},
+    "market": {"const": "SAUDI_EXCHANGE"},
+    "segment": {"const": "MAIN"},
+    "timezone": {"const": "Asia/Riyadh"},
+    "coverage_from": {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+    "coverage_through": {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+    "known_from": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:\\.[0-9]{1,6})?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])$"
+    },
+    "known_to": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:\\.[0-9]{1,6})?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])$"
+        }
+      ]
+    },
+    "source_id": {"type": "string", "minLength": 1},
+    "source_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://(?![^/?#]*@)[A-Za-z0-9._~:/?#\\[\\]!$&'()*+,;=%-]+$"
+    },
+    "boundary_uncertainty_seconds": {"type": "integer", "minimum": 0, "maximum": 300},
+    "evidence_class": {"enum": ["SYNTHETIC_ONLY", "RECORDED_AUTHORIZED_FIXTURE"]},
+    "schedule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["effective_from", "effective_through", "phases"],
+      "properties": {
+        "effective_from": {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+        "effective_through": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}
+          ]
+        },
+        "phases": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "prefixItems": [
+            {"$ref": "#/$defs/openingAuction"},
+            {"$ref": "#/$defs/continuousTrading"},
+            {"$ref": "#/$defs/closingAuction"},
+            {"$ref": "#/$defs/tradeAtLast"}
+          ],
+          "items": false
+        }
+      }
+    },
+    "holidays": {
+      "type": "array",
+      "maxItems": 512,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["closed_from", "closed_through", "resume_on", "reason"],
+        "properties": {
+          "closed_from": {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+          "closed_through": {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+          "resume_on": {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+          "reason": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "phaseBase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "start", "end", "executable"],
+      "properties": {
+        "name": {"type": "string"},
+        "start": {
+          "type": "string",
+          "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9]:00$"
+        },
+        "end": {
+          "type": "string",
+          "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9]:00$"
+        },
+        "executable": {"type": "boolean"}
+      }
+    },
+    "openingAuction": {
+      "allOf": [
+        {"$ref": "#/$defs/phaseBase"},
+        {
+          "properties": {
+            "name": {"const": "OPENING_AUCTION"},
+            "executable": {"const": false}
+          }
+        }
+      ]
+    },
+    "continuousTrading": {
+      "allOf": [
+        {"$ref": "#/$defs/phaseBase"},
+        {
+          "properties": {
+            "name": {"const": "CONTINUOUS_TRADING"},
+            "executable": {"const": true}
+          }
+        }
+      ]
+    },
+    "closingAuction": {
+      "allOf": [
+        {"$ref": "#/$defs/phaseBase"},
+        {
+          "properties": {
+            "name": {"const": "CLOSING_AUCTION"},
+            "executable": {"const": true}
+          }
+        }
+      ]
+    },
+    "tradeAtLast": {
+      "allOf": [
+        {"$ref": "#/$defs/phaseBase"},
+        {
+          "properties": {
+            "name": {"const": "TRADE_AT_LAST"},
+            "executable": {"const": true}
+          }
+        }
+      ]
+    }
+  }
+}

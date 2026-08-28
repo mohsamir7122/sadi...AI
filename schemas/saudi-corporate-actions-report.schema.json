@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mohsamir7122/sadi...AI/schemas/saudi-corporate-actions-report.schema.json",
+  "title": "Saudi corporate-actions reconciliation evidence report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "role",
+    "status",
+    "run_id",
+    "input_sha256",
+    "coverage_from",
+    "coverage_through",
+    "event_count",
+    "security_set_sha256",
+    "unresolved_material_actions",
+    "adjustment_basis"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "role": {"const": "SAUDI_CORPORATE_ACTIONS_REPORT"},
+    "status": {"const": "PASS"},
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,254}$"
+    },
+    "input_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "coverage_from": {"type": "string", "format": "date"},
+    "coverage_through": {"type": "string", "format": "date"},
+    "event_count": {"type": "integer", "minimum": 0},
+    "security_set_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "unresolved_material_actions": {"const": 0},
+    "adjustment_basis": {
+      "const": "CORPORATE_ACTION_ADJUSTED_TOTAL_RETURN"
+    }
+  }
+}

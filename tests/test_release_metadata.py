@@ -26,11 +26,14 @@ class ReleaseMetadataTests(unittest.TestCase):
         metadata = project_file["project"]
         self.assertEqual(project_file["build-system"]["requires"], ["setuptools==83.0.0"])
         self.assertEqual(metadata["version"], __version__)
-        self.assertEqual(__version__, "0.2.0")
-        self.assertEqual(metadata["dependencies"], ["tzdata==2026.3"])
+        self.assertEqual(__version__, "0.3.0")
+        self.assertEqual(
+            metadata["dependencies"],
+            ["cryptography==46.0.0", "tzdata==2026.3"],
+        )
         self.assertEqual(
             project_file["project"]["optional-dependencies"]["test"],
-            ["jsonschema==4.25.1"],
+            ["build==1.3.0", "jsonschema[format]==4.25.1"],
         )
         self.assertIn(f"/{__version__}", DEFAULT_USER_AGENT)
 
@@ -80,7 +83,8 @@ class ReleaseMetadataTests(unittest.TestCase):
 
     def test_proprietary_license_is_bound_to_package_metadata(self) -> None:
         metadata = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]
-        self.assertEqual(metadata["license"], {"file": "LICENSE"})
+        self.assertEqual(metadata["license"], "LicenseRef-Proprietary")
+        self.assertEqual(metadata["license-files"], ["LICENSE"])
         self.assertEqual(metadata["readme"]["file"], "README.md")
         self.assertEqual(metadata["authors"], [{"name": "Mohamed Samir Rashed Shaheen"}])
         self.assertEqual(

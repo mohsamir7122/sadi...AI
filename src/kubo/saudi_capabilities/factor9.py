@@ -13,6 +13,8 @@ import hashlib
 import json
 from typing import Any
 
+from .rights import RightsUse, require_known_rights, require_rights
+
 
 class FactorStatus(str, Enum):
     DEFINED = "DEFINED"
@@ -42,6 +44,7 @@ class FactorDefinition:
             raise ValueError("factor data_role is invalid")
         if not self.source_ids or self.freshness_hours <= 0:
             raise ValueError("factor needs sources and a positive freshness window")
+        require_known_rights(self.rights_status)
 
 
 class FactorRegistry:
@@ -56,8 +59,10 @@ class FactorRegistry:
     def admit(self, factor_id: str, *, known_at: datetime) -> FactorDefinition:
         factor = self._factors[factor_id]
         reasons: list[str] = []
-        if factor.rights_status not in {"PUBLIC_RESEARCH_ALLOWED", "LICENSED_MODEL_USE"}:
-            reasons.append("RIGHTS_NOT_ADMITTED")
+        try:
+            require_rights(factor.rights_status, use=RightsUse.MODEL_USE)
+        except ValueError:
+            reasons.append("MODEL_USE_RIGHTS_NOT_ADMITTED")
         if not factor.point_in_time_tested:
             reasons.append("POINT_IN_TIME_UNTESTED")
         if known_at < factor.available_from:

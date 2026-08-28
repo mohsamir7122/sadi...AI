@@ -5,10 +5,12 @@ import argparse
 from datetime import date, datetime
 import json
 from pathlib import Path
+import re
 from typing import Any
 
+from .markets.saudi.calendar import SaudiTradingCalendar, load_saudi_calendar_revision
 from .markets.saudi.engine import SaudiResearchEngine
-from .markets.saudi.identity import SaudiSecurityMaster, SaudiSecurityRecord
+from .markets.saudi.identity import SaudiSecurityMaster, load_saudi_security_master
 
 
 def _parse_datetime(value: str) -> datetime:
@@ -18,38 +20,49 @@ def _parse_datetime(value: str) -> datetime:
     return parsed
 
 
+def _parse_date(value: str) -> date:
+    if not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", value):
+        raise argparse.ArgumentTypeError("date must use canonical YYYY-MM-DD")
+    try:
+        parsed = date.fromisoformat(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(
+            "date must use canonical YYYY-MM-DD"
+        ) from exc
+    if parsed.isoformat() != value:
+        raise argparse.ArgumentTypeError("date must use canonical YYYY-MM-DD")
+    return parsed
+
+
 def _load_master(path: Path | None) -> SaudiSecurityMaster:
     if path is None:
         return SaudiSecurityMaster()
-    payload: Any = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(payload, list):
-        raise ValueError("identity file must contain an array")
-    records = []
-    for item in payload:
-        if not isinstance(item, dict):
-            raise ValueError("identity entries must be objects")
-        for field in ("valid_from", "valid_to"):
-            if item.get(field):
-                item[field] = date.fromisoformat(item[field])
-        for field in ("known_from", "known_to"):
-            if item.get(field):
-                item[field] = _parse_datetime(item[field])
-        records.append(SaudiSecurityRecord(**item))
-    return SaudiSecurityMaster(records)
+    return load_saudi_security_master(path)
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Saudi Exchange fail-closed research snapshot")
-    parser.add_argument("--as-of", type=date.fromisoformat, required=True, help="session date (YYYY-MM-DD)")
+    parser.add_argument("--as-of", type=_parse_date, required=True, help="session date (YYYY-MM-DD)")
     parser.add_argument("--known-at", type=_parse_datetime, required=True, help="Point-in-Time knowledge cutoff")
     parser.add_argument("--identity-file", type=Path, help="authorized/effective-dated identity fixture")
+    parser.add_argument("--calendar-file", type=Path, help="effective-dated calendar revision")
     parser.add_argument("--benchmark", default="TASI")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    engine = SaudiResearchEngine(security_master=_load_master(args.identity_file))
+    calendar = SaudiTradingCalendar(
+        revision=(
+            load_saudi_calendar_revision(args.calendar_file, known_at=args.known_at)
+            if args.calendar_file
+            else None
+        )
+    )
+    engine = SaudiResearchEngine(
+        security_master=_load_master(args.identity_file),
+        calendar=calendar,
+    )
     print(json.dumps(engine.snapshot(as_of=args.as_of, known_at=args.known_at, benchmark_code=args.benchmark), ensure_ascii=False, indent=2, sort_keys=True))
     return 0
 

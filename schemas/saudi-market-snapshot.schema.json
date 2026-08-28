@@ -1,21 +1,110 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://sadi-ai.local/schemas/saudi-market-snapshot.schema.json",
+  "title": "Saudi market snapshot or unsupported-scope abstention",
   "type": "object",
   "additionalProperties": false,
-  "required": ["market", "currency", "timezone", "segment", "as_of", "known_at", "session", "benchmark", "universe_size", "source_states", "status", "blocked_reasons"],
   "properties": {
-    "market": {"const": "SAUDI_EXCHANGE"},
-    "currency": {"const": "SAR"},
-    "timezone": {"const": "Asia/Riyadh"},
-    "segment": {"enum": ["MAIN", "NOMU"]},
-    "as_of": {"type": "string", "format": "date"},
-    "known_at": {"type": "string", "format": "date-time"},
-    "session": {"type": "object", "additionalProperties": false, "required": ["is_trading_day", "closed_reason"], "properties": {"is_trading_day": {"type": "boolean"}, "closed_reason": {"type": ["string", "null"]}}},
-    "benchmark": {"type": "object", "additionalProperties": false, "required": ["code", "scope"], "properties": {"code": {"type": "string"}, "scope": {"type": "string"}}},
-    "universe_size": {"type": "integer", "minimum": 0},
-    "source_states": {"type": "object", "additionalProperties": {"enum": ["DEFINED_ONLY", "ADMITTED", "RETIRED"]}},
-    "status": {"enum": ["ABSTAIN", "READY_FOR_EVIDENCE"]},
-    "blocked_reasons": {"type": "array", "items": {"type": "string"}}
+    "market": {},
+    "currency": {},
+    "timezone": {},
+    "segment": {},
+    "as_of": {},
+    "known_at": {},
+    "session": {},
+    "benchmark": {},
+    "membership_denominator_size": {},
+    "universe_size": {},
+    "source_states": {},
+    "status": {},
+    "blocked_reasons": {}
+  },
+  "oneOf": [
+    {"$ref": "#/$defs/mainSnapshot"},
+    {"$ref": "#/$defs/unsupportedScopeSnapshot"}
+  ],
+  "$defs": {
+    "mainSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "market", "currency", "timezone", "segment", "as_of", "known_at",
+        "session", "benchmark", "membership_denominator_size", "universe_size",
+        "source_states", "status", "blocked_reasons"
+      ],
+      "properties": {
+        "market": {"const": "SAUDI_EXCHANGE"},
+        "currency": {"const": "SAR"},
+        "timezone": {"const": "Asia/Riyadh"},
+        "segment": {"const": "MAIN"},
+        "as_of": {"type": "string", "format": "date"},
+        "known_at": {"type": "string", "format": "date-time"},
+        "session": {"$ref": "#/$defs/session"},
+        "benchmark": {"$ref": "#/$defs/benchmark"},
+        "membership_denominator_size": {"type": "integer", "minimum": 0},
+        "universe_size": {"type": "integer", "minimum": 0},
+        "source_states": {"$ref": "#/$defs/sourceStates"},
+        "status": {"enum": ["ABSTAIN", "READY_FOR_EVIDENCE"]},
+        "blocked_reasons": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        }
+      }
+    },
+    "unsupportedScopeSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "market", "currency", "timezone", "segment", "as_of", "known_at",
+        "status", "blocked_reasons"
+      ],
+      "properties": {
+        "market": {"const": "SAUDI_EXCHANGE"},
+        "currency": {"const": "SAR"},
+        "timezone": {"const": "Asia/Riyadh"},
+        "segment": {
+          "type": "string",
+          "minLength": 1,
+          "not": {"const": "MAIN"}
+        },
+        "as_of": {"type": "string", "format": "date"},
+        "known_at": {"type": "string", "format": "date-time"},
+        "status": {"const": "ABSTAIN"},
+        "blocked_reasons": {"const": ["UNSUPPORTED_PRODUCT_SCOPE"]}
+      }
+    },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "is_trading_day", "closed_reason", "coverage_known",
+        "calendar_revision_id"
+      ],
+      "properties": {
+        "is_trading_day": {"type": "boolean"},
+        "closed_reason": {"type": ["string", "null"]},
+        "coverage_known": {"type": "boolean"},
+        "calendar_revision_id": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "minLength": 1}
+          ]
+        }
+      }
+    },
+    "benchmark": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "scope"],
+      "properties": {
+        "code": {"type": "string", "minLength": 1},
+        "scope": {"type": "string", "minLength": 1}
+      }
+    },
+    "sourceStates": {
+      "type": "object",
+      "additionalProperties": {"enum": ["DEFINED_ONLY", "ADMITTED", "RETIRED"]}
+    }
   }
 }

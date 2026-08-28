@@ -5,4 +5,4 @@ KU-BO modules remain available for migration compatibility, but they are not
 Saudi defaults and cannot supply Saudi evidence implicitly.
 """
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"

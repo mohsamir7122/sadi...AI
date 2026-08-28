@@ -6,7 +6,7 @@
   "default_segment": "MAIN",
   "primary_benchmark": "TASI",
   "segments": {
-    "MAIN": {"enabled": true, "instrument_types": ["ORDINARY_EQUITY", "REIT"]},
+    "MAIN": {"enabled": true, "instrument_types": ["ORDINARY_EQUITY"]},
     "NOMU": {"enabled": false, "instrument_types": ["ORDINARY_EQUITY"]}
   },
   "source_policy": "DEFINED_ONLY",

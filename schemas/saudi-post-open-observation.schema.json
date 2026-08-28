@@ -4,17 +4,16 @@
   "title": "Saudi open-plus-thirty admitted observation",
   "type": "object",
   "additionalProperties": false,
-  "required": ["official_code", "observed_at", "source_id", "source_role", "rights_status", "latency_class", "last_price_sar", "average_daily_turnover_sar", "identity_verified", "factors"],
+  "required": ["official_code", "observed_at", "source_id", "source_role", "rights_status", "latency_class", "last_price_sar", "average_daily_turnover_sar", "factors"],
   "properties": {
     "official_code": {"type": "string", "pattern": "^[0-9]{4}$"},
     "observed_at": {"type": "string", "format": "date-time"},
     "source_id": {"type": "string", "minLength": 1},
     "source_role": {"enum": ["OFFICIAL_VERIFICATION", "REGULATORY_EVIDENCE", "ISSUER_DISCLOSURE", "LICENSED_MARKET_DATA"]},
-    "rights_status": {"enum": ["PUBLIC_RESEARCH_ALLOWED", "LICENSED_RESEARCH_ALLOWED"]},
+    "rights_status": {"enum": ["PUBLIC_RESEARCH_ALLOWED", "LICENSED_MODEL_USE"]},
     "latency_class": {"enum": ["REAL_TIME", "DELAYED", "END_OF_DAY"]},
     "last_price_sar": {"type": "number", "exclusiveMinimum": 0},
     "average_daily_turnover_sar": {"type": "number", "exclusiveMinimum": 0},
-    "identity_verified": {"const": true},
     "factors": {
       "type": "array",
       "minItems": 1,
@@ -27,7 +26,7 @@
           "value": {"type": "number"},
           "known_at": {"type": "string", "format": "date-time"},
           "source_id": {"type": "string", "minLength": 1},
-          "rights_status": {"enum": ["PUBLIC_RESEARCH_ALLOWED", "LICENSED_RESEARCH_ALLOWED"]}
+          "rights_status": {"enum": ["PUBLIC_RESEARCH_ALLOWED", "LICENSED_MODEL_USE"]}
         }
       }
     }

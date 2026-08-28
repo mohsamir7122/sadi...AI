@@ -15,11 +15,11 @@ class CodexControlCheckTests(unittest.TestCase):
     def test_repository_control_layer_passes(self) -> None:
         report = validate(ROOT)
         self.assertEqual(report["status"], "PASS", report["errors"])
-        self.assertEqual(report["task_id"], "SAI-2026-08-26-PR2-REPAIR")
-        self.assertEqual(report["task_status"], "COMPLETED")
+        self.assertEqual(report["task_id"], "SAI-2026-08-28-INTEGRITY-HARDENING")
+        self.assertEqual(report["task_status"], "BLOCKED")
         self.assertEqual(
             report["expected_branch"],
-            "main",
+            "codex/saudi-integrity-hardening-v1",
         )
         self.assertFalse(report["claim_boundaries"]["control_check_authorizes_merge"])
         self.assertFalse(
@@ -52,6 +52,41 @@ class CodexControlCheckTests(unittest.TestCase):
                 "CURRENT_TASK_MERGE_AUTHORITY_MISSING_OR_MISMATCHED",
                 report["errors"],
             )
+
+    def test_completed_ready_state_can_authorize_conditional_merge(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._copy_control_surface(root)
+            task = root / "docs/codex/CURRENT_TASK.md"
+            text = task.read_text(encoding="utf-8")
+            text = text.replace("STATUS: BLOCKED", "STATUS: COMPLETED", 1)
+            text = text.replace("EXPECTED_PR_MODE: DRAFT", "EXPECTED_PR_MODE: READY_FOR_REVIEW", 1)
+            text = text.replace(
+                "MERGE_ALLOWED: NO",
+                "MERGE_ALLOWED: YES_AFTER_GATES_PER_SAI-DEC-006",
+                1,
+            )
+            task.write_text(text, encoding="utf-8")
+            report = validate(root)
+            self.assertEqual(report["status"], "PASS", report["errors"])
+            self.assertTrue(report["claim_boundaries"]["control_check_authorizes_merge"])
+
+    def test_merge_flag_without_completed_ready_state_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._copy_control_surface(root)
+            task = root / "docs/codex/CURRENT_TASK.md"
+            task.write_text(
+                task.read_text(encoding="utf-8").replace(
+                    "MERGE_ALLOWED: NO",
+                    "MERGE_ALLOWED: YES_AFTER_GATES_PER_SAI-DEC-006",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+            report = validate(root)
+            self.assertEqual(report["status"], "FAIL")
+            self.assertFalse(report["claim_boundaries"]["control_check_authorizes_merge"])
 
     def test_private_drive_url_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
